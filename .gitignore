@@ -1,0 +1,9 @@
+application/api_access_logs
+application/modules/Commands/api.models
+application/runtime
+.idea/workspace.xml
+.idea/misc.xml
+.idea/vcs.xml
+.DS_Store
+vendor
+images/simple-configurations
