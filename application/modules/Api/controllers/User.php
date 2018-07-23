@@ -33,6 +33,9 @@ class UserController extends TCApiControllerBase {
       $userModel = new UserModel();
       $userModel->weixin_id = $weixin_id;
       $userModel->insert();
+      $userPorfile = new UserProfileModel();
+      $userPorfile->id = $userModel->id;
+      $userPorfile->insert();
     }
     $tokenModel = UserTokenModel::findById($userModel->id);
     if(!$tokenModel) {
@@ -66,6 +69,22 @@ class UserController extends TCApiControllerBase {
    * }
    */
   public function setProfileAction() {
+    $token = $_POST['token'];
+    $tokenModel = UserTokenModel::findByAttributes(['token' => $token]);
+    if(!$tokenModel) return $this->writeErrorJsonResponseCaseParamsError();
+    $userProfile = UserProfileModel::findById($tokenModel->id);
+    if(!empty($_POST['phone'])) $phone = intval($_POST['phone']);
+    if(!empty($_POST['industry_id'])) $industry_id = intval($_POST['industry_id']);
+    if(!empty($_POST['area_id'])) $area_id = intval($_POST['area_id']);
+    if(!empty($_POST['address'])) $address = $_POST['address'];
+    if(!empty($_POST['id_number'])) $id_number = $_POST['id_number'];
+    $userProfile->phone = $phone ? $phone : 0;
+    $userProfile->industry_id = $industry_id ? $industry_id : 0;
+    $userProfile->area_id = $area_id ? $area_id : 0;
+    $userProfile->address = $address ? $address : '';
+    $userProfile->id_number = $id_number ? $id_number : 0;
+    $userProfile->save();
+
     return $this->writeSuccessJsonResponse(array());
   }
 
