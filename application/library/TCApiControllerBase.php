@@ -12,7 +12,7 @@ class TCApiControllerBase extends TCControllerBase {
     $this->getView()->layout = null;
     header('Access-Control-Allow-Origin:' . "*");
     header('Access-Control-Allow-Methods:' . "*");
-    header('Access-Control-Request-Headers:' . " Origin, X-Requested-With, Content-Type, Accept");
+    header('Access-Control-Request-Headers:' . " Origin, X-Requested-With, Content-Type, Accept,content-type");
   }
 }
 
