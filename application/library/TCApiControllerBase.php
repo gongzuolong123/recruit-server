@@ -11,6 +11,7 @@ class TCApiControllerBase extends TCControllerBase {
     Yaf_Dispatcher::getInstance()->autoRender(false);
     $this->getView()->layout = null;
     header('Access-Control-Allow-Origin:' . "*");
+    header('Access-Control-Allow-Methods:' . "*");
   }
 }
 
