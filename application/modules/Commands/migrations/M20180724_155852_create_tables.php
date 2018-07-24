@@ -23,8 +23,8 @@ class M20180724_155852_create_tables extends TCMigrationBase {
       'wages' => 'text',
       'weight' => 'int not null default 0',
       'status' => 'tinyint not null default 0',
-      'contacts_name' => 'varchar(20) not null default ""',
-      'contacts_phone' => 'varchar(20) not null default ""',
+      'contacts_name' => 'varchar(100) not null default ""',
+      'contacts_phone' => 'varchar(100) not null default ""',
       'key enterprise_id (enterprise_id)',
       'key weight (weight)',
     ]);
