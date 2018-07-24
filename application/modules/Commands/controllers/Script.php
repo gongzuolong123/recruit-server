@@ -52,7 +52,7 @@ class ScriptController extends TCControllerBase {
    * 从execl导入企业数据
    */
   public function importAction() {
-    $file_path = '/tmp/1.csv';
+    $file_path = APPLICATION_PATH . '/1.csv';
     $file = fopen($file_path,'r');
     $str = fgetcsv($file);
     while(! feof($file)) {
