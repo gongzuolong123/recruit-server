@@ -48,4 +48,73 @@ class ScriptController extends TCControllerBase {
   }
 
 
+  /**
+   * 从execl导入企业数据
+   */
+  public function importAction() {
+    $file_path = '/tmp/1.csv';
+    $file = fopen($file_path,'r');
+    $str = fgetcsv($file);
+    while(! feof($file)) {
+      $line = fgetcsv($file);
+      foreach($line as $index => $item) {
+        if($index < 10) {
+          switch($index) {
+            case 0:
+              $industry_id = IndustryModel::findOrCreateByName($item);
+              break;
+            case 1:
+              if($item == '玉山镇') $area_id = 48030;
+              if($item == '开发区') $area_id = 48039;
+              break;
+            case 2:
+              $name = $item;
+              break;
+            case 3:
+              $shop_name = $item;
+              break;
+            case 4:
+              $work_address = $item;
+              break;
+            case 5:
+              $work_post = $item;
+              break;
+            case 6:
+              $work_require = $item;
+              break;
+            case 7:
+              $wages = $item;
+              break;
+            case 8:
+              $contacts_name = $item;
+              break;
+            case 9:
+              $contacts_phone = $item;
+              break;
+          }
+        }
+      }
+      if(!$industry_id) continue;
+
+      $enterpriseModel = new EnterpriseModel();
+      $enterpriseModel->industry_id = $industry_id;
+      $enterpriseModel->name = $name;
+      $enterpriseModel->area_id = $area_id;
+      $enterpriseModel->shop_name = $shop_name;
+      $enterpriseModel->insert();
+
+      $recruitModel = new RecruitModel();
+      $recruitModel->enterprise_id = $enterpriseModel->id;
+      $recruitModel->work_address = $work_address;
+      $recruitModel->work_post = $work_post;
+      $recruitModel->work_require = $work_require;
+      $recruitModel->wages = $wages;
+      $recruitModel->contacts_name = $contacts_name;
+      $recruitModel->contacts_phone = $contacts_phone;
+      $recruitModel->insert();
+    }
+    fclose($file);
+  }
+
+
 }
