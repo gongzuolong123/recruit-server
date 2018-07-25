@@ -30,6 +30,8 @@ class EnterpriseController extends TCApiControllerBase {
       $item->industryName = IndustryModel::findById($model->getEnterpriseModel()->industry_id)->name;
       $item->areaName = AreaModel::findById($model->getEnterpriseModel()->area_id)->name;
       $item->wordAddress = $model->work_address;
+      $item->status = $model->status;
+      $item->weight = $model->weight;
       $data[] = $item;
     }
     $total = RecruitModel::countBySql('select * from recruits');
