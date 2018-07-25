@@ -22,7 +22,7 @@ class EnterpriseController extends TCApiControllerBase {
     $limit = 8;
     $offset = $page * $limit;
     $data = [];
-    $models = RecruitModel::findAllByAttributes(['status' => [0, -1]], 'weight', "{$offset},{$limit}");
+    $models = RecruitModel::findAllByAttributes(['status' => [0, -1]], 'status desc,weight', "{$offset},{$limit}");
     foreach($models as $model) {
       $item = new stdClass();
       $item->id = $model->id;
@@ -55,6 +55,8 @@ class EnterpriseController extends TCApiControllerBase {
       $data->wages = $model->wages;
       $data->contactsName = $model->contacts_name;
       $data->contactsPhone = $model->contacts_phone;
+      $data->weight = $model->weight;
+      $data->status = $model->status;
     }
     return $this->writeSuccessJsonResponse($data);
   }
@@ -72,6 +74,19 @@ class EnterpriseController extends TCApiControllerBase {
     $model->wages = $_POST['wages'];
     $model->contacts_name = $_POST['contactsName'];
     $model->contacts_phone = $_POST['contactsPhone'];
+    $model->weight = $_POST['weight'];
+    $model->save();
+    return $this->writeSuccessJsonResponse();
+  }
+
+  /**
+   * 设置招聘信息的状态
+   */
+  public function setRecruitStatusAction() {
+    $id = intval($_POST['id']);
+    $model = RecruitModel::findById($id);
+    if(!$model) return $this->writeErrorJsonResponseCaseParamsError();
+    $model->status = intval($_POST['status']);
     $model->save();
     return $this->writeSuccessJsonResponse();
   }
