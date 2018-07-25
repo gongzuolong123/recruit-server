@@ -13,7 +13,8 @@ class EnterpriseController extends TCApiControllerBase {
     $limit = 8;
     $offset = $page * $limit;
     $data = [];
-    $models = EnterpriseModel::findAllByAttributes([], '', "{$offset},{$limit}");
+    $sql = "select * from enterprises limit {$offset},{$limit}";
+    $models = EnterpriseModel::findAllBySql($sql);
     foreach($models as $model) {
       $item = new stdClass();
       $item->id = $model->id;
