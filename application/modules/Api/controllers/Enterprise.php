@@ -37,5 +37,27 @@ class EnterpriseController extends TCApiControllerBase {
     return $this->writeSuccessJsonResponse($data, ['total' => $total, 'limit' => $limit]);
   }
 
+  /**
+   * 招聘详情
+   */
+  public function recruitDetailAction(){
+    $id = intval($_GET['id']);
+    $data = new stdClass();
+    $model = RecruitModel::findById($id);
+    if($model) {
+      $data->id = $model->id;
+      $data->enterpriseName = $model->getEnterpriseModel()->name;
+      $data->industryName = IndustryModel::findById($model->getEnterpriseModel()->industry_id)->name;
+      $data->areaName = AreaModel::findById($model->getEnterpriseModel()->area_id)->name;
+      $data->wordAddress = $model->work_address;
+      $data->wordPost = $model->work_post;
+      $data->wordRequire = $model->work_require;
+      $data->wages = $model->wages;
+      $data->contactsName = $model->contacts_name;
+      $data->contactsPhone = $model->contacts_phone;
+    }
+    return $this->writeSuccessJsonResponse($data);
+  }
+
 
 }
