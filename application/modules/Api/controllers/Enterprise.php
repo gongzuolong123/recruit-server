@@ -59,5 +59,22 @@ class EnterpriseController extends TCApiControllerBase {
     return $this->writeSuccessJsonResponse($data);
   }
 
+  /**
+   * 保存招聘详情
+   */
+  public function saveRecruitAction(){
+    $id = intval($_POST['id']);
+    $model = RecruitModel::findById($id);
+    if(!$model) return $this->writeErrorJsonResponseCaseParamsError();
+    $model->work_address = $_POST['wordAddress'];
+    $model->work_post = $_POST['wordPost'];
+    $model->work_require = $_POST['wordRequire'];
+    $model->wages = $_POST['wages'];
+    $model->contacts_name = $_POST['contactsName'];
+    $model->contacts_phone = $_POST['contactsPhone'];
+    $model->save();
+    return $this->writeSuccessJsonResponse();
+  }
+
 
 }
