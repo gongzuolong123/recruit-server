@@ -6,6 +6,32 @@
 class EnterpriseController extends TCApiControllerBase {
 
   /**
+   * 企业列表
+   */
+  public function listAction(){
+    $page = intval($_GET['page']);
+    $limit = 8;
+    $offset = $page * $limit;
+    $data = [];
+    $models = EnterpriseModel::findAllByAttributes([], '', "{$offset},{$limit}");
+    foreach($models as $model) {
+      $item = new stdClass();
+      $item->id = $model->id;
+      $item->name = $model->name;
+      $item->industryId = $model->industry_id;
+      $item->industryName = IndustryModel::findById($model->industry_id)->name;
+      $item->areaId = $model->area_id;
+      $item->areaName = AreaModel::findById($model->area_id)->name;
+      $item->shopName = $model->shop_name;
+      $item->license = $model->license;
+      $data[] = $item;
+    }
+    $total = RecruitModel::countBySql('select * from enterprises');
+
+    return $this->writeSuccessJsonResponse($data, ['total' => $total, 'limit' => $limit]);
+  }
+
+  /**
    * 企业招聘列表
    * @json:{
    *   "status": "success",          // 接口返回状态，sucess表示成功，error表示失敗
