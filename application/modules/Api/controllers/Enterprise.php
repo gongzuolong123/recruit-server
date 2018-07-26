@@ -64,6 +64,7 @@ class EnterpriseController extends TCApiControllerBase {
     $model->area_id = $_POST['areaId'];
     $model->shop_name = $_POST['shopName'];
     $model->address = $_POST['address'];
+    $model->license = $_POST['license'];
     $model->save();
     return $this->writeSuccessJsonResponse();
   }
