@@ -17,6 +17,7 @@ class ImageController extends TCApiControllerBase {
       if($status) {
         $data = new stdClass();
         $data->url = Yaf_Application::app()->getConfig()->get('api.root.url') . $file_path . $file_name;
+        $data->image_path = $file_path . $file_name;
         return $this->writeSuccessJsonResponse($data);
       }
     }
