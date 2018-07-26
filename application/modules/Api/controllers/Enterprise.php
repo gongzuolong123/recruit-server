@@ -25,11 +25,57 @@ class EnterpriseController extends TCApiControllerBase {
       $item->areaName = AreaModel::findById($model->area_id)->name;
       $item->shopName = $model->shop_name;
       $item->license = $model->license;
+      $item->address = $model->address;
       $data[] = $item;
     }
     $total = RecruitModel::countBySql('select * from enterprises');
 
     return $this->writeSuccessJsonResponse($data, ['total' => $total, 'limit' => $limit]);
+  }
+
+  /**
+   * 企业详情
+   */
+  public function detailAction(){
+    $id = intval($_POST['id']);
+    $data = new stdClass();
+    $model = EnterpriseModel::findById($id);
+    if(!$model) return $this->writeErrorJsonResponseCaseParamsError();
+    $data->id = $model->id;
+    $data->name = $model->name;
+    $data->industryId = $model->industry_id;
+    $data->areaId = $model->area_id;
+    $data->areaName = AreaModel::findById($model->area_id)->name;
+    $data->shopName = $model->shop_name;
+    $data->licese = $model->license;
+    $data->address = $model->address;
+    return $this->writeSuccessJsonResponse($data);
+  }
+
+  /**
+   * 保存企业
+   */
+  public function saveAction(){
+    $id = intval($_POST['id']);
+    $model = EnterpriseModel::findById($id);
+    if(!$model) $model = new EnterpriseModel();
+    $model->name = $_POST['name'];
+    $model->industry_id = $_POST['industryId'];
+    $model->area_id = $_POST['areaId'];
+    $model->shop_name = $_POST['shopName'];
+    $model->address = $_POST['address'];
+    $model->save();
+    return $this->writeSuccessJsonResponse();
+  }
+
+  /**
+   * 删除企业
+   */
+  public function deleteAction(){
+    $id = intval($_POST['id']);
+    $model = EnterpriseModel::findById($id);
+    if($model) $model->delete();
+    return $this->writeSuccessJsonResponse();
   }
 
   /**
