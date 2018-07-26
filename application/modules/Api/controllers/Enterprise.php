@@ -47,7 +47,7 @@ class EnterpriseController extends TCApiControllerBase {
     $data->areaId = $model->area_id;
     $data->areaName = AreaModel::findById($model->area_id)->name;
     $data->shopName = $model->shop_name;
-    $data->licese = $model->license;
+    $data->licese = Yaf_Application::app()->getConfig()->get('api.root.url') . $model->license;
     $data->address = $model->address;
     return $this->writeSuccessJsonResponse($data);
   }
