@@ -107,6 +107,9 @@ class EnterpriseController extends TCApiControllerBase {
       $item->wordAddress = $model->work_address;
       $item->status = $model->status;
       $item->weight = $model->weight;
+      $item->wages = $model->wages;
+      $item->contactsName = $model->contacts_name;
+      $item->contactsPhone = $model->contacts_phone;
       $data[] = $item;
     }
     $total = RecruitModel::countBySql('select * from recruits');
