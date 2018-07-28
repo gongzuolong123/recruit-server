@@ -94,7 +94,7 @@ class EnterpriseController extends TCApiControllerBase {
    */
   public function recruitListAction() {
     $page = intval($_GET['page']);
-    $limit = 8;
+    $limit = 10;
     $offset = $page * $limit;
     $data = [];
     $models = RecruitModel::findAllByAttributes(['status' => [0, -1]], 'status desc,weight', "{$offset},{$limit}");
