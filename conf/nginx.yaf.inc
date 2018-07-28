@@ -15,7 +15,7 @@ location / {
 }
 
 location /dist {
-  root /home/webuser/htdocs/zp-admin;
+  root /home/webuser/htdocs/zp-admin/dist;
   index index.php index.html index.htm;
 }
 
