@@ -15,7 +15,7 @@ location / {
 }
 
 location /admin {
-  alias /home/webuser/htdocs/zp-admin/dist;
+  alias /home/webuser/htdocs/zp-admin/dist/;
   index index.php index.html index.htm;
 }
 
