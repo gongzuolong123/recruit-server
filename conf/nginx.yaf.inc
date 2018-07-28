@@ -14,8 +14,8 @@ location / {
   try_files $uri $uri/ /index.php?$args;
 }
 
-location /admin/ {
-  root /home/webuser/htdocs/zp-admin/dist;
+location /dist {
+  root /home/webuser/htdocs/zp-admin;
   index index.php index.html index.htm;
 }
 
