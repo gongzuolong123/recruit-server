@@ -16,6 +16,7 @@ location / {
 
 location /admin {
   root /home/webuser/htdocs/zp-admin/dist;
+  index index.php index.html index.htm;
   try_files $uri $uri/ /index.php?$args;
 }
 
