@@ -26,6 +26,7 @@ class SimpleAccessControlPlugin extends Yaf_Plugin_Abstract {
 
   public function routerShutdown(Yaf_Request_Abstract $request, Yaf_Response_Abstract $response) {
     if($request->module == 'Api') return; // api interfaces
+    if($request->controller == 'Web') return;
     session_start();
     $ip = $_SERVER['REMOTE_ADDR'];
     if(!empty($_GET['1kxun_management_signature']) && !empty($_GET['1kxun_project_id'])
