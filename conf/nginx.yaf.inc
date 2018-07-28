@@ -14,6 +14,11 @@ location / {
   try_files $uri $uri/ /index.php?$args;
 }
 
+location /admin {
+  root /home/webuser/htdocs/zp-admin/dist;
+  try_files $uri $uri/ /index.php?$args;
+}
+
 location ~ .*\.(gif|jpg|png|htm|html|css|js|ico|swf)$ {
   if (-f $request_filename) {
     expires 90d;
