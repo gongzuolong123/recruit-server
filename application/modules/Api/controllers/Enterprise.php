@@ -5,6 +5,11 @@
  */
 class EnterpriseController extends TCApiControllerBase {
 
+  protected function postOnlyActions() {
+    return array("saveRecruit", "save");
+  }
+
+
   /**
    * 企业列表
    */
@@ -193,14 +198,14 @@ class EnterpriseController extends TCApiControllerBase {
 
   /**
    * 保存招聘详情
-   * @params $id           // 招聘id (没有就新增)
-   * @params $enterpriseId // 企业id (新增时要传)
-   * @params $wordAddress  // 工作地址
-   * @params $wordPost
-   * @params $wordRequire
-   * @params $wages
-   * @params $contactsName
-   * @params $contactsPhone
+   * @param $id           // 招聘id (没有就新增)
+   * @param $enterpriseId // 企业id (新增时要传)
+   * @param $wordAddress  // 工作地址
+   * @param $wordPost
+   * @param $wordRequire
+   * @param $wages
+   * @param $contactsName
+   * @param $contactsPhone
    */
   public function saveRecruitAction() {
     $id = intval($_POST['id']);
