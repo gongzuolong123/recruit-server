@@ -156,6 +156,7 @@ class EnterpriseController extends TCApiControllerBase {
 
   /**
    * 招聘详情
+   * @param $id  招聘id
    * @json:{
    *   "status": "success",          // 接口返回状态，sucess表示成功，error表示失敗
    *   "message": "error message",   // 失败原因
