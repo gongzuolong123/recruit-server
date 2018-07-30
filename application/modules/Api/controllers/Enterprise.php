@@ -8,7 +8,7 @@ class EnterpriseController extends TCApiControllerBase {
   /**
    * 企业列表
    */
-  public function listAction(){
+  public function listAction() {
     $page = intval($_GET['page']);
     $limit = 8;
     $offset = $page * $limit;
@@ -36,7 +36,7 @@ class EnterpriseController extends TCApiControllerBase {
   /**
    * 企业详情
    */
-  public function detailAction(){
+  public function detailAction() {
     $id = intval($_GET['id']);
     $data = new stdClass();
     $model = EnterpriseModel::findById($id);
@@ -50,13 +50,14 @@ class EnterpriseController extends TCApiControllerBase {
     $data->license = $model->license;
     $data->license_url = Yaf_Application::app()->getConfig()->get('api.root.url') . $model->license;
     $data->address = $model->address;
+
     return $this->writeSuccessJsonResponse($data);
   }
 
   /**
    * 保存企业
    */
-  public function saveAction(){
+  public function saveAction() {
     $id = intval($_POST['id']);
     $model = EnterpriseModel::findById($id);
     if(!$model) $model = new EnterpriseModel();
@@ -67,29 +68,44 @@ class EnterpriseController extends TCApiControllerBase {
     $model->address = $_POST['address'];
     $model->license = $_POST['license'];
     $model->save();
+
     return $this->writeSuccessJsonResponse();
   }
 
   /**
    * 删除企业
    */
-  public function deleteAction(){
+  public function deleteAction() {
     $id = intval($_POST['id']);
     $model = EnterpriseModel::findById($id);
     if($model) $model->delete();
+
     return $this->writeSuccessJsonResponse();
   }
 
   /**
    * 企业招聘列表
+   * @param $page   分页 默认0
+   * @param $enterpriseId  企业id
+   * @param $status 状态 0 正常状态，-1 删除状态 1 全部
    * @json:{
    *   "status": "success",          // 接口返回状态，sucess表示成功，error表示失敗
    *   "message": "error message",   // 失败原因
    *   "error_code": -100,           // 失败代码
    *   "data": [
    *     {
+   *       "id":123,                 // id
+   *       "enterpriseName":"xxx",   // 企业名称
+   *       "industryName":"xx",      // 行业名称
+   *       "areaName": "xxx",        // 地区名称
+   *       "wordAddress": "xxx",     // 工作地址
+   *       "wages":"xxx",            // 工资待遇
+   *       "contactsName":"xxx",     // 联系人姓名
+   *       "contactsPhone":"xxx",    // 联系人电话
    *     }
    *   ],
+   *   "total": 100,  // 总数
+   *   "limit": 10,   // 每页的数量
    * }
    */
   public function recruitListAction() {
@@ -97,7 +113,23 @@ class EnterpriseController extends TCApiControllerBase {
     $limit = 10;
     $offset = $page * $limit;
     $data = [];
-    $models = RecruitModel::findAllByAttributes(['status' => [0, -1]], 'status desc,weight', "{$offset},{$limit}");
+    $params['status'] = [0];
+    if(!empty($_GET['enterpriseId'])) {
+      $params['enterprise_id'] = intval($_GET['enterpriseId']);
+    }
+    if(!empty($_GET['status'])) {
+      switch(intval($_GET['status'])) {
+        case 0:
+          break;
+        case -1:
+          $params['status'] = -1;
+          break;
+        case 1:
+          $params['status'] = [0, -1];
+          break;
+      }
+    }
+    $models = RecruitModel::findAllByAttributes($params, 'status desc,weight', "{$offset},{$limit}");
     foreach($models as $model) {
       $item = new stdClass();
       $item->id = $model->id;
@@ -119,14 +151,31 @@ class EnterpriseController extends TCApiControllerBase {
 
   /**
    * 招聘详情
+   * @json:{
+   *   "status": "success",          // 接口返回状态，sucess表示成功，error表示失敗
+   *   "message": "error message",   // 失败原因
+   *   "error_code": -100,           // 失败代码
+   *   "data": {
+   *     "id":123,                 // id
+   *     "enterpriseName":"xxx",   // 企业名称
+   *     "enterpriseId": 11,       // 企业id
+   *     "industryName":"xx",      // 行业名称
+   *     "areaName": "xxx",        // 地区名称
+   *     "wordAddress": "xxx",     // 工作地址
+   *     "wages":"xxx",            // 工资待遇
+   *     "contactsName":"xxx",     // 联系人姓名
+   *     "contactsPhone":"xxx",    // 联系人电话
+   *   },
+   * }
    */
-  public function recruitDetailAction(){
+  public function recruitDetailAction() {
     $id = intval($_GET['id']);
     $data = new stdClass();
     $model = RecruitModel::findById($id);
     if($model) {
       $data->id = $model->id;
       $data->enterpriseName = $model->getEnterpriseModel()->name;
+      $data->enterpriseId = $model->enterprise_id;
       $data->industryName = IndustryModel::findById($model->getEnterpriseModel()->industry_id)->name;
       $data->areaName = AreaModel::findById($model->getEnterpriseModel()->area_id)->name;
       $data->wordAddress = $model->work_address;
@@ -138,24 +187,37 @@ class EnterpriseController extends TCApiControllerBase {
       $data->weight = $model->weight;
       $data->status = $model->status;
     }
+
     return $this->writeSuccessJsonResponse($data);
   }
 
   /**
    * 保存招聘详情
+   * @params $id           // 招聘id (没有就新增)
+   * @params $enterpriseId // 企业id (新增时要传)
+   * @params $wordAddress  // 工作地址
+   * @params $wordPost
+   * @params $wordRequire
+   * @params $wages
+   * @params $contactsName
+   * @params $contactsPhone
    */
-  public function saveRecruitAction(){
+  public function saveRecruitAction() {
     $id = intval($_POST['id']);
     $model = RecruitModel::findById($id);
-    if(!$model) return $this->writeErrorJsonResponseCaseParamsError();
+    if(!$model) {
+      $model = new RecruitModel();
+      $model->enterprise_id = intval($_POST['enterpriseId']);
+    }
     $model->work_address = $_POST['wordAddress'];
     $model->work_post = $_POST['wordPost'];
     $model->work_require = $_POST['wordRequire'];
     $model->wages = $_POST['wages'];
     $model->contacts_name = $_POST['contactsName'];
     $model->contacts_phone = $_POST['contactsPhone'];
-    $model->weight = $_POST['weight'];
+    $model->weight = intval($_POST['weight']);
     $model->save();
+
     return $this->writeSuccessJsonResponse();
   }
 
@@ -168,6 +230,7 @@ class EnterpriseController extends TCApiControllerBase {
     if(!$model) return $this->writeErrorJsonResponseCaseParamsError();
     $model->status = intval($_POST['status']);
     $model->save();
+
     return $this->writeSuccessJsonResponse();
   }
 
