@@ -15,21 +15,15 @@
 <!--    <span class="wages">3500元-4200元</span>-->
 <!--  </div>-->
 <!--  <div class="explain_item">-->
-<!--    <div class="label">基本说明</div>-->
-<!--    <div class="explain">-->
-<!--      <span class="key">地区:</span>-->
-<!--      <span class="value">玉山镇</span>-->
-<!--      <span class="key">工作地址:</span>-->
-<!--      <span class="value">衡山路弥敦城5楼</span>-->
-<!--      <span class="key">招聘岗位:</span>-->
-<!--      <span class="value">经理、主管、领班、收银员、服务员、传菜员，以上人数若干 </span>-->
-<!--      <span class="key">岗位要求:</span>-->
-<!--      <span class="value">包吃住，要求：年龄18--35以下。男女不限，无不良嗜好，管理层须有1--2年的管理经验。</span>-->
-<!--      <span class="key">联系人:</span>-->
-<!--      <span class="value">徐经理</span>-->
-<!--      <span class="key">电话:</span>-->
-<!--      <span class="value">0512--50175077</span>-->
-<!--    </div>-->
+<!--    <div class="labell">基本说明</div>-->
+<!--    <table class="table table-bordered">-->
+<!--      <tr><td style="width:85px">地区</td><td>玉山镇</td></tr>-->
+<!--      <tr><td>工作地址</td><td>衡山路弥敦城5楼</td></tr>-->
+<!--      <tr><td>招聘岗位</td><td>经理、主管、领班、收银员、服务员、传菜员，以上人数若干</td></tr>-->
+<!--      <tr><td>岗位要求</td><td>包吃住，要求：年龄18--35以下。男女不限，无不良嗜好，管理层须有1--2年的管理经验。</td></tr>-->
+<!--      <tr><td>联系人</td><td>徐经理</td></tr>-->
+<!--      <tr><td>电话</td><td>0512--50175077</td></tr>-->
+<!--    </table>-->
 <!--  </div>-->
 
   <div id="call_phone"><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i></div>
@@ -40,17 +34,13 @@
 
 <style>
   #Recruit_Detail{max-width:550px;margin:0px auto}
-  .top{padding:10px}
+  .top{padding:10px;padding-top:25px}
   .top span{display:block;}
   .top .title {font-size:18px;font-weight:600;display:inline-block;}
   .top .industry{display:inline-block;font-size:13px;color:rgb(97,177,222);border-radius:5px;padding:1px 3px;border:1px solid #dedede;margin-left:5px}
-  .top .wages{font-size:15px;font-weight:800;color:orangered;}
-  .explain_item{border:1px solid #D0D0D0;border-radius:10px 10px 5px 5px;color:#303030;margin:0px 10px}
-  .explain_item .labell{background-color:#D0D0D0;padding:10px;border-radius:10px 10px 0px 0px;color:#3C8EFA;font-weight:600;font-size:18px}
-  .explain_item .explain{padding:10px}
-  .explain_item .explain span{display:block;}
-  .explain_item .explain .key{font-size:16px;}
-  .explain_item .explain .value{margin-bottom:10px;font-size:14px}
+  .top .wages{font-size:15px;color:orangered;margin-top:7px}
+  .explain_item{color:#303030;margin:0px 10px}
+  .explain_item .labell{padding:10px;color:#3C8EFA;font-weight:600;font-size:18px}
 
   #call_phone{position:fixed;bottom:40px;right:30px;width:50px;height:50px;text-align:center;background-color:rgb(97,177,222);border-radius:50px;box-shadow:0px 0px 10px 5px rgba(97,177,222,0.5);}
   #call_phone i{line-height:50px;font-size:30px;color:#FFF;}
@@ -74,12 +64,14 @@
           html += '<span class=industry>' + data.industryName + '</span>';
           html += '<span class="wages">' + data.wages + '</span></div>';
           html += '<div class="explain_item"><div class="labell">基本说明</div>';
-          html += '<div class="explain"><span class="key">地区:</span><span class="value">' + data.areaName + '</span>';
-          html += '<span class="key">工作地址:</span><span class="value">' + data.wordAddress + '</span>';
-          html += '<span class="key">招聘岗位:</span><span class="value">' + data.wordPost + '</span>';
-          html += '<span class="key">岗位要求:</span><span class="value">' + data.wordRequire + '</span>';
-          html += '<span class="key">联系人:</span><span class="value">' + data.contactsName + '</span>';
-          html += '<span class="key">电话:</span><span class="value"><a href="tel:' + data.contactsPhone + '">' + data.contactsPhone + '</a></span></div></div>';
+          html += '<table class="table table-bordered">';
+          html += '<tr><td style="width:85px">地区</td><td>' + data.areaName + '</td></tr>';
+          html += '<tr><td>工作地址</td><td>' + data.wordAddress + '</td></tr>';
+          html += '<tr><td>招聘岗位</td><td>' + data.wordPost + '</td></tr>';
+          html += '<tr><td>岗位要求</td><td>' + data.wordRequire + '</td></tr>';
+          html += '<tr><td>联系人</td><td>' + data.contactsName + '</td></tr>';
+          html += '<tr><td>电话</td><td><a href="tel:>' + data.contactsPhone + '">' + data.contactsPhone + '</a></td></tr>';
+          html += '</table></div>';
           if(html != '') {
             $('#Recruit_Detail').append(html);
           }
