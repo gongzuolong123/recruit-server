@@ -167,6 +167,8 @@ class EnterpriseController extends TCApiControllerBase {
    *     "industryName":"xx",      // 行业名称
    *     "areaName": "xxx",        // 地区名称
    *     "wordAddress": "xxx",     // 工作地址
+   *     "wordPost": "xxx",        // 工作岗位
+   *     "wordRequire": "xx",      // 工作要求
    *     "wages":"xxx",            // 工资待遇
    *     "contactsName":"xxx",     // 联系人姓名
    *     "contactsPhone":"xxx",    // 联系人电话
@@ -198,14 +200,14 @@ class EnterpriseController extends TCApiControllerBase {
 
   /**
    * 保存招聘详情
-   * @param $id           // 招聘id (没有就新增)
-   * @param $enterpriseId // 企业id (新增时要传)
-   * @param $wordAddress  // 工作地址
-   * @param $wordPost
-   * @param $wordRequire
-   * @param $wages
-   * @param $contactsName
-   * @param $contactsPhone
+   * @param $id           招聘id (没有就新增)
+   * @param $enterpriseId 企业id (新增时要传)
+   * @param $wordAddress  工作地址
+   * @param $wordPost     工作岗位
+   * @param $wordRequire  工作要求
+   * @param $wages        工资待遇
+   * @param $contactsName  联系人姓名
+   * @param $contactsPhone 联系人电话
    */
   public function saveRecruitAction() {
     $id = intval($_POST['id']);
