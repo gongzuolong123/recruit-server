@@ -15,12 +15,12 @@
 
 <style>
   #Recruit_List{max-width:550px;margin:0px auto}
-  .item{border-bottom:1px solid #dedede;padding:7px 5px}
+  .item{padding:15px 8px;box-shadow:0px 2px 10px 2px rgba(222,222,222,0.5);margin-bottom:10px;border-radius:6px}
   .item .left{display:inline-block;vertical-align:middle}
   .item .left span{display:block}
-  .item .left .wages{color:orangered;font-size:11px}
-  .item .left .name{color:#313131;font-size:16px;}
-  .item .left .area{display:inline-block;font-size:11px;color:rgb(97,177,222);border-radius:5px;padding:1px 3px;margin-right:3px;border:1px solid #dedede}
+  .item .left .wages{color:orangered;font-size:15px;margin-top:7px}
+  .item .left .name{color:#303030;font-size:18px;margin-bottom:7px;}
+  .item .left .area{display:inline-block;font-size:11px;color:rgb(97,177,222);border-radius:5px;padding:1px 3px;margin-right:8px;border:1px solid #dedede}
   .item .left .industry{display:inline-block;font-size:11px;color:rgb(97,177,222);border-radius:5px;padding:1px 3px;border:1px solid #dedede}
 </style>
 
@@ -29,7 +29,7 @@
     var page = 0;
     var is_load_item = false;
 
-    var apiUrl = 'http://212.64.10.159/api/enterprise/recruitList';
+    var apiUrl = 'http://101.132.65.153/api/enterprise/recruitList';
 
     function loadItems() {
       if(is_load_item) return;
@@ -42,10 +42,12 @@
           for(var i = 0; i < result.data.length; i++) {
             var data = result.data[i];
             html += '<div class="item" data-id="' + data.id + '"><div class="left">';
-            html += '<span class="wages">' + data.wages + '</span>';
+            html += '<span class="name">' + data.enterpriseName + '</span>';
             html += '<span class="area">' + data.areaName + '</span>';
             html += '<span class="industry">' + data.industryName + '</span>';
-            html += '<span class="name">' + data.enterpriseName + '</span></div></div>';
+            html += '<span class="wages">' + data.wages + '</span></div></div>';
+
+
           }
           if(html != '') {
             $('#Recruit_List').append(html);

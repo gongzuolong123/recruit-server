@@ -2,7 +2,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0"/>
+  <meta name="format-detection" content="telephone=yes"/>
   <script src='<?= $base_uri ?>/js/jquery-1.11.1.min.js' type='text/javascript'></script>
+  <link href="<?php echo $base_uri ?>/bootstrap-3.3.1/css/bootstrap.min.css" rel="stylesheet">
   <title>招聘列表</title>
 </head>
 <body>
@@ -29,6 +31,8 @@
 <!--      <span class="value">0512--50175077</span>-->
 <!--    </div>-->
 <!--  </div>-->
+
+  <div id="call_phone"><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i></div>
 </div>
 
 </body>
@@ -38,21 +42,25 @@
   #Recruit_Detail{max-width:550px;margin:0px auto}
   .top{padding:10px}
   .top span{display:block;}
-  .top .title {font-size:17px;font-weight:600;display:inline-block;}
+  .top .title {font-size:18px;font-weight:600;display:inline-block;}
   .top .industry{display:inline-block;font-size:13px;color:rgb(97,177,222);border-radius:5px;padding:1px 3px;border:1px solid #dedede;margin-left:5px}
-  .top .wages{font-size:18px;font-weight:800;color:#3C8EFA;}
-  .explain_item{border:1px solid #D0D0D0;border-radius:10px 10px 5px 5px;color:#313131}
-  .explain_item .label{background-color:#D0D0D0;padding:10px;border-radius:10px 10px 0px 0px;color:#3C8EFA;font-weight:600;font-size:18px}
+  .top .wages{font-size:15px;font-weight:800;color:orangered;}
+  .explain_item{border:1px solid #D0D0D0;border-radius:10px 10px 5px 5px;color:#303030;margin:0px 10px}
+  .explain_item .labell{background-color:#D0D0D0;padding:10px;border-radius:10px 10px 0px 0px;color:#3C8EFA;font-weight:600;font-size:18px}
   .explain_item .explain{padding:10px}
   .explain_item .explain span{display:block;}
   .explain_item .explain .key{font-size:16px;}
   .explain_item .explain .value{margin-bottom:10px;font-size:14px}
 
+  #call_phone{position:fixed;bottom:40px;right:30px;width:50px;height:50px;text-align:center;background-color:rgb(97,177,222);border-radius:50px;box-shadow:0px 0px 10px 5px rgba(97,177,222,0.5);}
+  #call_phone i{line-height:50px;font-size:30px;color:#FFF;}
+
 </style>
 
 <script>
   $(function() {
-    var apiUrl = 'http://212.64.10.159/api/enterprise/recruitDetail?id=' + '<?= $_GET['id']?>';
+    var apiUrl = 'http://101.132.65.153/api/enterprise/recruitDetail?id=' + '<?= $_GET['id']?>';
+    var phone = '';
 
     function loadDetail() {
       $.ajax({
@@ -61,16 +69,17 @@
         dataType: "json", success: function(result) {
           var html = '';
           var data = result.data;
+          phone = data.contactsPhone;
           html += '<div class="top"><span class="title">' + data.enterpriseName + '</span>';
           html += '<span class=industry>' + data.industryName + '</span>';
           html += '<span class="wages">' + data.wages + '</span></div>';
-          html += '<div class="explain_item"><div class="label">基本说明</div>';
+          html += '<div class="explain_item"><div class="labell">基本说明</div>';
           html += '<div class="explain"><span class="key">地区:</span><span class="value">' + data.areaName + '</span>';
           html += '<span class="key">工作地址:</span><span class="value">' + data.wordAddress + '</span>';
           html += '<span class="key">招聘岗位:</span><span class="value">' + data.wordPost + '</span>';
           html += '<span class="key">岗位要求:</span><span class="value">' + data.wordRequire + '</span>';
           html += '<span class="key">联系人:</span><span class="value">' + data.contactsName + '</span>';
-          html += '<span class="key">电话:</span><span class="value">' + data.contactsPhone + '</span></div></div>';
+          html += '<span class="key">电话:</span><span class="value"><a href="tel:' + data.contactsPhone + '">' + data.contactsPhone + '</a></span></div></div>';
           if(html != '') {
             $('#Recruit_Detail').append(html);
           }
@@ -81,6 +90,10 @@
     }
 
     loadDetail();
+
+    $("#call_phone").click(function(){
+      location.href = 'tel:' + phone;
+    })
 
 
 
