@@ -21,13 +21,15 @@ class AreaModel extends TCModelBase {
     return array('name', 'level', 'parent_id');
   }
 
-  public static function getAllAreaName($id) {
+  public static function getAllAreaName($id, $level = 0) {
     $names = [];
     while($model = self::findById($id)) {
       if(!$model) break;
       $names[] = $model->name;
+      if($model->level == $level) break;
       $id = $model->parent_id;
     }
-    return implode(',',array_reverse($names));
+
+    return implode(',', array_reverse($names));
   }
 }
