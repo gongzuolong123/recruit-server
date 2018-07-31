@@ -142,6 +142,8 @@ class EnterpriseController extends TCApiControllerBase {
       $item->industryName = IndustryModel::findById($model->getEnterpriseModel()->industry_id)->name;
       $item->areaName = AreaModel::findById($model->getEnterpriseModel()->area_id)->name;
       $item->wordAddress = $model->work_address;
+      $item->wordPost = $model->work_post;
+      $item->wordRequire = $model->work_require;
       $item->status = $model->status;
       $item->weight = $model->weight;
       $item->wages = $model->wages;
