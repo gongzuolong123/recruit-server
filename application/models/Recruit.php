@@ -14,8 +14,8 @@
  * @property string $contacts_phone
  * @property int $weight
  * @property int $status
- * @property int $wages_1
- * @property int $wages_2
+ * @property  $wages_1
+ * @property  $wages_2
  * @property int $wages_type
  * @property int $education
  * @property string $updated_at
@@ -32,9 +32,9 @@ class RecruitModel extends TCModelBase {
     $this->status = 0;
     $this->contacts_name = '';
     $this->contacts_phone = '';
-    $this->wages_1 = 0;
-    $this->wages_2 = 0;
-    $this->wages_type = 0;
+    $this->wages_1 = '0.0';
+    $this->wages_2 = '0.0';
+    $this->wages_type = 1;
     $this->education = 0;
   }
 
