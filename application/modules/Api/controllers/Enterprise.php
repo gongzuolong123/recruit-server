@@ -150,7 +150,7 @@ class EnterpriseController extends TCApiControllerBase {
       $item->contactsName = $model->contacts_name;
       $item->contactsPhone = $model->contacts_phone;
       $item->areaNameAll = AreaModel::getAllAreaName($model->getEnterpriseModel()->area_id, 2);
-      $item->wagesType = (string)$model->wages_type;
+      $item->wagesType = $model->wages_type;
       $item->wages1 = $model->wages_1;
       $item->wages2 = $model->wages_2;
       $item->education = $model->education;
@@ -200,7 +200,7 @@ class EnterpriseController extends TCApiControllerBase {
       $data->wages = $model->wages;
       $data->contactsName = $model->contacts_name;
       $data->contactsPhone = $model->contacts_phone;
-      $data->wagesType = $model->wages_type;
+      $data->wagesType = (string)$model->wages_type;
       $data->wages1 = $model->wages_1;
       $data->wages2 = $model->wages_2;
       $data->updated_at = $model->updated_at;
