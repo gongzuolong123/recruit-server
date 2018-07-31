@@ -200,7 +200,7 @@ class EnterpriseController extends TCApiControllerBase {
       $data->wages = $model->wages;
       $data->contactsName = $model->contacts_name;
       $data->contactsPhone = $model->contacts_phone;
-      $data->wagesType = (string)$model->wages_type;
+      $data->wagesType = $model->wages_type;
       $data->wages1 = $model->wages_1;
       $data->wages2 = $model->wages_2;
       $data->updated_at = $model->updated_at;
