@@ -20,4 +20,13 @@ class AreaModel extends TCModelBase {
   protected function attributesForInsert() {
     return array('name', 'level', 'parent_id');
   }
+
+  public static function getAllAreaName($id) {
+    $names = [];
+    while(($model = self::findById($id)) !== false) {
+      $names[] = $model->name;
+      $id = $model->parent_id;
+    }
+    return implode(',',array_reverse($names));
+  }
 }

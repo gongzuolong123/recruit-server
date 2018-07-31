@@ -147,6 +147,12 @@ class EnterpriseController extends TCApiControllerBase {
       $item->wages = $model->wages;
       $item->contactsName = $model->contacts_name;
       $item->contactsPhone = $model->contacts_phone;
+      $item->areaNameAll = AreaModel::getAllAreaName($model->getEnterpriseModel()->area_id);
+      $item->wagesType = $model->wages_type;
+      $item->wages1 = $model->wages_1;
+      $item->wages2 = $model->wages_2;
+      $item->education = $model->education;
+      $item->updated_at = $model->updated_at;
       $data[] = $item;
     }
     $total = RecruitModel::countBySql('select * from recruits');
@@ -192,6 +198,11 @@ class EnterpriseController extends TCApiControllerBase {
       $data->wages = $model->wages;
       $data->contactsName = $model->contacts_name;
       $data->contactsPhone = $model->contacts_phone;
+      $data->wagesType = $model->wages_type;
+      $data->wages1 = $model->wages_1;
+      $data->wages2 = $model->wages_2;
+      $data->updated_at = $model->updated_at;
+      $data->education = $model->education;
       $data->weight = $model->weight;
       $data->status = $model->status;
     }
@@ -221,9 +232,14 @@ class EnterpriseController extends TCApiControllerBase {
     $model->work_post = $_POST['wordPost'];
     $model->work_require = $_POST['wordRequire'];
     $model->wages = $_POST['wages'];
+    $model->wages_1 = $_POST['wages1'];
+    $model->wages_2 = $_POST['wages2'];
+    $model->wages_type = $_POST['wagesType'];
     $model->contacts_name = $_POST['contactsName'];
     $model->contacts_phone = $_POST['contactsPhone'];
     $model->weight = intval($_POST['weight']);
+    $model->updated_at = date('Y-m-d H:i:s');
+    $model->education = intval($_POST['education']);
     $model->save();
 
     return $this->writeSuccessJsonResponse();
