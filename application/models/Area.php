@@ -23,7 +23,8 @@ class AreaModel extends TCModelBase {
 
   public static function getAllAreaName($id) {
     $names = [];
-    while(($model = self::findById($id)) !== false) {
+    while($model = self::findById($id)) {
+      if(!$model) break;
       $names[] = $model->name;
       $id = $model->parent_id;
     }
