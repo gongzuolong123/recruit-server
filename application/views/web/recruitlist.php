@@ -30,7 +30,7 @@
   .item{padding:15px 8px;position:relative;border-bottom:3px solid rgba(20,126,251,0.3)}
   .item .left{display:inline-block;vertical-align:middle;max-width:80%}
   .item .left span{display:block}
-  .item .left .wages{color:rgb(128,137,254);font-size:20px;position:absolute;right:10px;top:15px}
+  .item .left .wages{color:rgb(128,137,254);font-size:19px;position:absolute;right:10px;top:15px}
   .item .left .date{color:rgb(122,122,122);font-size:14px;position:absolute;right:10px;top:42px;}
   .item .left .post{color:rgb(60,60,60);font-size:20px;font-weight:500}
   .item .left .name{color:#303030;font-size:18px;margin-top:10px}
