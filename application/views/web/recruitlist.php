@@ -65,7 +65,7 @@
             html += '<span class="area">' + data.areaNameAll.replace(',',' | ') + '</span>';
             html += '<span class="wages">' + wages + '</span>';
             html += '<span class="date">' + updated_at + '</span>';
-            html += '<span class="name">' + data.enterpriseName + '</span>';
+            html += '<span class="name">' + data.shopName + '</span>';
             html += '<span class="ppnumber">150-500人 |</span>';
             html += '<span class="industry">' + data.industryName + '</span>';
             html += '</div></div>';
