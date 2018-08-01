@@ -7,6 +7,17 @@
 </head>
 <body>
 <div id="Recruit_List">
+<!--  <div class="item" data-id="">-->
+<!--    <div class="left">-->
+<!--      <span class="post">UI设计师</span>-->
+<!--      <span class="area">昆市市 | 玉江镇</span>-->
+<!--      <span class="wages">3-6k</span>-->
+<!--      <span class="date">07月31日</span>-->
+<!--      <span class="name">昆山开发区青春饭餐厅</span>-->
+<!--      <span class="ppnumber">150-500人 | </span>-->
+<!--      <span class="industry">服务业</span>-->
+<!--    </div>-->
+<!--  </div>-->
 
 </div>
 
@@ -14,14 +25,18 @@
 </html>
 
 <style>
+  body{margin:0px}
   #Recruit_List{max-width:550px;margin:0px auto}
-  .item{padding:15px 8px;box-shadow:0px 2px 10px 2px rgba(222,222,222,0.5);margin-bottom:10px;border-radius:6px}
-  .item .left{display:inline-block;vertical-align:middle}
+  .item{padding:15px 8px;position:relative;border-bottom:3px solid rgba(20,126,251,0.3)}
+  .item .left{display:inline-block;vertical-align:middle;max-width:80%}
   .item .left span{display:block}
-  .item .left .wages{color:orangered;font-size:15px;margin-top:7px}
-  .item .left .name{color:#303030;font-size:18px;margin-bottom:7px;}
-  .item .left .area{display:inline-block;font-size:11px;color:rgb(97,177,222);border-radius:5px;padding:1px 3px;margin-right:8px;border:1px solid #dedede}
-  .item .left .industry{display:inline-block;font-size:11px;color:rgb(97,177,222);border-radius:5px;padding:1px 3px;border:1px solid #dedede}
+  .item .left .wages{color:rgb(128,137,254);font-size:20px;position:absolute;right:10px;top:15px}
+  .item .left .date{color:rgb(122,122,122);font-size:14px;position:absolute;right:10px;top:42px;}
+  .item .left .post{color:rgb(60,60,60);font-size:20px;font-weight:500}
+  .item .left .name{color:#303030;font-size:18px;margin-top:10px}
+  .item .left .area{font-size:14px;color:rgb(122,122,122);}
+  .item .left .ppnumber{display:inline-block;font-size:14px;color:rgb(122,122,122)}
+  .item .left .industry{display:inline-block;font-size:14px;color:rgb(122,122,122);margin-left:4px}
 </style>
 
 <script>
@@ -41,13 +56,19 @@
           var html = '';
           for(var i = 0; i < result.data.length; i++) {
             var data = result.data[i];
+            var wages = data.wages;
+            var updated_at = '';
+            if(data.updated_at) updated_at = data.updated_at.substr(0,10);
+            if(data.wages1 && data.wages2) wages = data.wages1 / 1000 + '-' + data.wages2 / 1000 + 'k';
             html += '<div class="item" data-id="' + data.id + '"><div class="left">';
+            html += '<span class="post">' + data.wordPost + '</span>';
+            html += '<span class="area">' + data.areaNameAll.replace(',',' | ') + '</span>';
+            html += '<span class="wages">' + wages + '</span>';
+            html += '<span class="date">' + updated_at + '</span>';
             html += '<span class="name">' + data.enterpriseName + '</span>';
-            html += '<span class="area">' + data.areaName + '</span>';
+            html += '<span class="ppnumber">150-500人 |</span>';
             html += '<span class="industry">' + data.industryName + '</span>';
-            html += '<span class="wages">' + data.wages + '</span></div></div>';
-
-
+            html += '</div></div>';
           }
           if(html != '') {
             $('#Recruit_List').append(html);
