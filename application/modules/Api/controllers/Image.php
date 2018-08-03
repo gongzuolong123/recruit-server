@@ -1,14 +1,14 @@
 <?php
 
 /**
- * 图片相关
+ * 上传相关
  */
-class ImageController extends TCApiControllerBase {
+class UploadController extends TCApiControllerBase {
 
   /**
-   * 上传
+   * 上传图片
    */
-  public function uploadAction() {
+  public function imageAction() {
     if($_FILES['license'] && $_FILES['license']['error'] == 0) {
       $file_name = md5(uniqid()) . '.jpg';
       $file_path = '/image/license/';

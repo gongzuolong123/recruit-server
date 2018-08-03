@@ -96,12 +96,15 @@ class ScriptController extends TCControllerBase {
       }
       if(!$industry_id) continue;
 
-      $enterpriseModel = new EnterpriseModel();
-      $enterpriseModel->industry_id = $industry_id;
-      $enterpriseModel->name = $name;
-      $enterpriseModel->area_id = $area_id;
-      $enterpriseModel->shop_name = $shop_name;
-      $enterpriseModel->insert();
+      $enterpriseModel = EnterpriseModel::findByAttributes(['name'=>$name]);
+      if(!$enterpriseModel) {
+        $enterpriseModel = new EnterpriseModel();
+        $enterpriseModel->industry_id = $industry_id;
+        $enterpriseModel->name = $name;
+        $enterpriseModel->area_id = $area_id;
+        $enterpriseModel->shop_name = $shop_name;
+        $enterpriseModel->insert();
+      }
 
       $recruitModel = new RecruitModel();
       $recruitModel->enterprise_id = $enterpriseModel->id;

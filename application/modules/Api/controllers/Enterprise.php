@@ -142,9 +142,9 @@ class EnterpriseController extends TCApiControllerBase {
       $item->shopName = $model->getEnterpriseModel()->shop_name;
       $item->industryName = IndustryModel::findById($model->getEnterpriseModel()->industry_id)->name;
       $item->areaName = AreaModel::findById($model->getEnterpriseModel()->area_id)->name;
-      $item->wordAddress = $model->work_address;
-      $item->wordPost = $model->work_post;
-      $item->wordRequire = $model->work_require;
+      $item->workAddress = $model->work_address;
+      $item->workPost = $model->work_post;
+      $item->workRequire = $model->work_require;
       $item->status = $model->status;
       $item->weight = $model->weight;
       $item->wages = $model->wages;
@@ -196,9 +196,9 @@ class EnterpriseController extends TCApiControllerBase {
       $data->industryName = IndustryModel::findById($model->getEnterpriseModel()->industry_id)->name;
       $data->areaName = AreaModel::findById($model->getEnterpriseModel()->area_id)->name;
       $data->shopName = $model->getEnterpriseModel()->shop_name;
-      $data->wordAddress = $model->work_address;
-      $data->wordPost = $model->work_post;
-      $data->wordRequire = $model->work_require;
+      $data->workAddress = $model->work_address;
+      $data->workPost = $model->work_post;
+      $data->workRequire = $model->work_require;
       $data->wages = $model->wages;
       $data->contactsName = $model->contacts_name;
       $data->contactsPhone = $model->contacts_phone;
@@ -232,9 +232,9 @@ class EnterpriseController extends TCApiControllerBase {
       $model = new RecruitModel();
       $model->enterprise_id = intval($_POST['enterpriseId']);
     }
-    $model->work_address = $_POST['wordAddress'];
-    $model->work_post = $_POST['wordPost'];
-    $model->work_require = $_POST['wordRequire'];
+    $model->work_address = $_POST['workAddress'];
+    $model->work_post = $_POST['workPost'];
+    $model->work_require = $_POST['workRequire'];
     $model->wages = $_POST['wages'];
     $model->wages_1 = $_POST['wages1'];
     $model->wages_2 = $_POST['wages2'];

@@ -66,9 +66,9 @@
           html += '<div class="explain_item"><div class="labell">基本说明</div>';
           html += '<table class="table table-bordered">';
           html += '<tr><td style="width:85px">地区</td><td>' + data.areaName + '</td></tr>';
-          html += '<tr><td>工作地址</td><td>' + data.wordAddress + '</td></tr>';
-          html += '<tr><td>招聘岗位</td><td>' + data.wordPost + '</td></tr>';
-          html += '<tr><td>岗位要求</td><td>' + data.wordRequire + '</td></tr>';
+          html += '<tr><td>工作地址</td><td>' + data.workAddress + '</td></tr>';
+          html += '<tr><td>招聘岗位</td><td>' + data.workPost + '</td></tr>';
+          html += '<tr><td>岗位要求</td><td>' + data.workRequire + '</td></tr>';
           html += '<tr><td>联系人</td><td>' + data.contactsName + '</td></tr>';
           html += '<tr><td>电话</td><td><a href="tel:>' + data.contactsPhone + '">' + data.contactsPhone + '</a></td></tr>';
           html += '</table></div>';
