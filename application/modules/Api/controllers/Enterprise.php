@@ -262,5 +262,19 @@ class EnterpriseController extends TCApiControllerBase {
     return $this->writeSuccessJsonResponse();
   }
 
+  /**
+   * 添加待导入招聘信息的文件
+   */
+  public function addImportAction() {
+    if(is_array($_POST['file_paths'])) {
+      foreach($_POST['file_paths'] as $file_path) {
+        $model = new ImportModel();
+        $model->file_path = $file_path;
+        $model->insert();
+      }
+    }
+    return $this->writeSuccessJsonResponse();
+  }
+
 
 }
