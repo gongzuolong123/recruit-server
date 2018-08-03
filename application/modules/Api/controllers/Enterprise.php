@@ -266,10 +266,11 @@ class EnterpriseController extends TCApiControllerBase {
    * 添加待导入招聘信息的文件
    */
   public function addImportAction() {
-    if(is_array($_POST['file_paths'])) {
-      foreach($_POST['file_paths'] as $file_path) {
+    if(is_array($_POST['files'])) {
+      foreach($_POST['files'] as $file) {
         $model = new ImportModel();
-        $model->file_path = $file_path;
+        $model->file_name = $file['name'];
+        $model->file_path = $file['path'];
         $model->insert();
       }
     }
