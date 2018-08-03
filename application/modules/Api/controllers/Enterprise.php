@@ -274,7 +274,7 @@ class EnterpriseController extends TCApiControllerBase {
         $model->insert();
       }
     }
-    return $this->writeSuccessJsonResponse($_POST);
+    return $this->writeSuccessJsonResponse();
   }
 
 
