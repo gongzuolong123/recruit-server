@@ -22,6 +22,8 @@ class ScriptController extends TCControllerBase {
       echo 'pid-fetch-all : ' . $pid . ' Already Run' . PHP_EOL;   // 脚本如果是运行状态
       return;
     }
+    $pid = getmypid();
+    file_put_contents($pid_file, $pid);
   }
 
   private $asynFetchClientNumber = 0;
