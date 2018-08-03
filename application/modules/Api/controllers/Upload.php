@@ -30,11 +30,10 @@ class UploadController extends TCApiControllerBase {
    */
   public function csvAction() {
     if($_FILES['csv'] && $_FILES['csv']['error'] == 0) {
-      return $this->writeSuccessJsonResponse($_FILES);
-      $file_name = md5(uniqid()) . '.jpg';
-      $file_path = '/image/license/';
+      $file_name = $_FILES['csv']['name'];
+      $file_path = '/image/csv/';
       if(!is_dir(APPLICATION_PATH . $file_path)) mkdir(APPLICATION_PATH . $file_path,0777, true);
-      $status = move_uploaded_file($_FILES['license']['tmp_name'],APPLICATION_PATH . $file_path . $file_name);
+      $status = move_uploaded_file($_FILES['csv']['tmp_name'],APPLICATION_PATH . $file_path . $file_name);
       if($status) {
         $data = new stdClass();
         $data->url = Yaf_Application::app()->getConfig()->get('api.root.url') . $file_path . $file_name;
