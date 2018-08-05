@@ -52,7 +52,7 @@
       var url = apiUrl + '?page=' + page;
       if(all == true) url = apiUrl + '?page=' + page + '&offset=0';
       $.ajax({
-        url: apiUrl + '?page=' + page,
+        url: url,
         type: "GET",
         dataType: "json", success: function(result) {
           var html = '';
