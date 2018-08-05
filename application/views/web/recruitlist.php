@@ -46,9 +46,11 @@
 
     var apiUrl = 'http://101.132.65.153/api/enterprise/recruitList';
 
-    function loadItems() {
+    function loadItems(all) {
       if(is_load_item) return;
       is_load_item = true;
+      var url = apiUrl + '?page=' + page;
+      if(all == true) url = apiUrl + '?page=' + page + '&offset=0';
       $.ajax({
         url: apiUrl + '?page=' + page,
         type: "GET",
@@ -74,10 +76,16 @@
             $('#Recruit_List').append(html);
             is_load_item = false;
             page++;
+            if(all == true) {
+              var scroll = parseInt(getCookie('scroll'));
+              $(document).scrollTop(scroll);
+            }
           }
 
           $('.item').click(function(){
             var id = $(this).attr('data-id');
+            setCookie('page',page,60);
+            setCookie('scroll',$(document).scrollTop(),160);
             location.href = '<?= $base_uri?>' + '/web/recruitdetail?id=' + id;
           })
 
@@ -85,7 +93,12 @@
       });
     }
 
-    loadItems();
+    if(getCookie('page') !== null) {
+      page = parseInt(getCookie('page'));
+      loadItems(true);
+    } else {
+      loadItems();
+    }
 
     function getDocumentTop() {
       var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
@@ -128,6 +141,20 @@
         loadItems();
       }
     };
+
+    function setCookie(name,value,s) {
+      var exp = new Date();
+      exp.setTime(exp.getTime() + s*1000);
+      document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+    }
+
+    function getCookie(name) {
+      var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+      if(arr=document.cookie.match(reg))
+        return unescape(arr[2]);
+      else
+        return null;
+    }
 
 
   })

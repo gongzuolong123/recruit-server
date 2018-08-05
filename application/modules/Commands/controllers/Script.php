@@ -20,6 +20,7 @@ class ScriptController extends TCControllerBase {
       !empty($row[0])
     ) {
       echo 'pid-fetch-all : ' . $pid . ' Already Run' . PHP_EOL;   // 脚本如果是运行状态
+
       return;
     }
     $pid = getmypid();
@@ -51,6 +52,7 @@ class ScriptController extends TCControllerBase {
       $this->asynFetchClientNumber--;
       if($statusCode != 200) {
         echo 'ID: ' . $id . ' error !' . PHP_EOL;
+
         return;
       }
       foreach(json_decode($body) as $item) {
@@ -76,9 +78,9 @@ class ScriptController extends TCControllerBase {
     $models = ImportModel::findAllByAttributes(['status' => -1]);
     foreach($models as $model) {
       $file_path = APPLICATION_PATH . $model->file_path;
-      $file = fopen($file_path,'r');
+      $file = fopen($file_path, 'r');
       $str = fgetcsv($file);
-      while(! feof($file)) {
+      while(!feof($file)) {
         $line = fgetcsv($file);
         foreach($line as $index => $item) {
           if($index < 10) {
@@ -89,7 +91,7 @@ class ScriptController extends TCControllerBase {
               case 1:
                 if($item == '玉山镇') $area_id = 48030;
                 elseif($item == '开发区') $area_id = 48039;
-                else $area_id = intval(AreaModel::findByAttributes(['name'=>$item])->id);
+                else $area_id = intval(AreaModel::findByAttributes(['name' => $item])->id);
                 break;
               case 2:
                 $name = $item;
@@ -120,7 +122,7 @@ class ScriptController extends TCControllerBase {
         }
         if(!$industry_id) continue;
 
-        $enterpriseModel = EnterpriseModel::findByAttributes(['name'=>$name]);
+        $enterpriseModel = EnterpriseModel::findByAttributes(['name' => $name]);
         if(!$enterpriseModel) {
           $enterpriseModel = new EnterpriseModel();
           $enterpriseModel->industry_id = $industry_id;
@@ -145,6 +147,28 @@ class ScriptController extends TCControllerBase {
       $model->save();
     }
 
+  }
+
+  public function testAction() {
+    $path = '/Users/gzl/Downloads/zhihuiicon/';
+    foreach(['content', 'header', 'home', 'login', 'sidebar'] as $type) {
+      if(!is_dir($path . $type . "_svg")) {
+        mkdir($path . $type . "_svg", 0777, true);
+      }
+      $dirHandle = opendir($path . $type);
+      while(false !== ($file = readdir($dirHandle))) {
+        if($file == '.' || $file == '..') continue;
+        if(substr($file, stripos($file, '.') + 1) == 'png') {
+          $file_name = substr($file, 0, stripos($file, '.'));
+          $png_file_path = $path . $type . '/' . $file;
+          $pbm_file_path = $path . $type . '/' . $file_name . '.pbm';
+          $svg_file = $path . $type . "_svg/" . $file_name . '.svg';
+          exec("convert -flatten {$png_file_path} {$pbm_file_path}");
+          exec("potrace -s {$pbm_file_path} -o {$svg_file}");
+          exec("rm -f {$pbm_file_path}");
+        }
+      }
+    }
   }
 
 

@@ -117,6 +117,10 @@ class EnterpriseController extends TCApiControllerBase {
     $page = intval($_GET['page']);
     $limit = 10;
     $offset = $page * $limit;
+    if(isset($_GET['offset'])) {
+      $offset = intval($_GET['offset']);
+      $limit = ($page + 1) * $limit;
+    }
     $data = [];
     $params['status'] = [0];
     if(!empty($_GET['enterpriseId'])) {
