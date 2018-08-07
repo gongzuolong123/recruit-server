@@ -21,10 +21,23 @@ class AdminController extends TCApiControllerBase {
     if(isset($this->users[$userName]) && $this->users[$userName] == $passWord) {
       $token = md5(uniqid());
       TCRedisManager::getInstance()->redis->set($token,'admin',86400 * 7);
-      return $this->writeSuccessJsonResponse(['user' => 'admin', 'token' => $token]);
+      return $this->writeSuccessJsonResponse(['user' => $userName, 'access_token' => $token]);
     }
 
     return $this->writeErrorJsonResponseCaseParamsError();
+  }
+
+
+  /**
+   * 验证access_token是否有效
+   */
+  public function validateTokenAction() {
+    $access_token = $_POST['access_token'];
+    $row = TCRedisManager::getInstance()->redis->get($access_token);
+    if($row && isset($this->users[$row])) {
+      return $this->writeSuccessJsonResponse();
+    }
+    return $this->writeErrorJsonResponse();
   }
 
 
