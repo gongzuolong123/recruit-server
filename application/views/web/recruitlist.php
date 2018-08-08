@@ -32,7 +32,7 @@
   .item .left span{display:block}
   .item .left .wages{color:rgb(128,137,254);font-size:16px;position:absolute;right:10px;top:15px}
   .item .left .date{color:rgb(122,122,122);font-size:14px;position:absolute;right:10px;top:42px;}
-  .item .left .post{color:rgb(60,60,60);font-size:16px;font-weight:400}
+  .item .left .post{color:rgb(60,60,60);font-size:16px;font-weight:500}
   .item .left .name{color:#303030;font-size:15px;margin-top:10px}
   .item .left .area{font-size:14px;color:rgb(122,122,122);}
   .item .left .ppnumber{display:inline-block;font-size:14px;color:rgb(122,122,122)}
