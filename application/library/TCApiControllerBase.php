@@ -14,5 +14,11 @@ class TCApiControllerBase extends TCControllerBase {
     header('Access-Control-Allow-Methods:' . "*");
     header('Access-Control-Request-Headers:' . " Origin, X-Requested-With, Content-Type, Accept,content-type");
   }
+
+
+  protected function getUrl($path) {
+    if($path[0] == '/') return Yaf_Application::app()->getConfig()->get('api.root.url') . $path;
+    else return $path;
+  }
 }
 

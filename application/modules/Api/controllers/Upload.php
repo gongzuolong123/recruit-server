@@ -7,13 +7,24 @@ class UploadController extends TCApiControllerBase {
 
   /**
    * 上传图片
+   * @param $license  证书  name = license
+   * @param $ad       广告  name = ad
    */
   public function imageAction() {
+    $data = null;
+    $file_path = '';
+    $file_name = md5(uniqid()) . '.jpg';
     if($_FILES['license'] && $_FILES['license']['error'] == 0) {
-      $file_name = md5(uniqid()) . '.jpg';
+      $data = $_FILES['license'];
       $file_path = '/image/license/';
+    }
+    if($_FILES['ad'] && $_FILES['ad']['error'] == 0) {
+      $data = $_FILES['ad'];
+      $file_path = '/image/ad/';
+    }
+    if($data) {
       if(!is_dir(APPLICATION_PATH . $file_path)) mkdir(APPLICATION_PATH . $file_path,0777, true);
-      $status = move_uploaded_file($_FILES['license']['tmp_name'],APPLICATION_PATH . $file_path . $file_name);
+      $status = move_uploaded_file($data['tmp_name'],APPLICATION_PATH . $file_path . $file_name);
       if($status) {
         $data = new stdClass();
         $data->url = Yaf_Application::app()->getConfig()->get('api.root.url') . $file_path . $file_name;
