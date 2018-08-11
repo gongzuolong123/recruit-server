@@ -44,7 +44,7 @@
     var page = 0;
     var is_load_item = false;
 
-    var apiUrl = 'http://101.132.65.153/api/enterprise/recruitList';
+    var apiUrl = 'http://www.yikework.com/api/enterprise/recruitList';
 
     function loadItems(all) {
       if(is_load_item) return;

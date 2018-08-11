@@ -49,7 +49,7 @@
 
 <script>
   $(function() {
-    var apiUrl = 'http://101.132.65.153/api/enterprise/recruitDetail?id=' + '<?= $_GET['id']?>';
+    var apiUrl = 'http://www.yikework.com/api/enterprise/recruitDetail?id=' + '<?= $_GET['id']?>';
     var phone = '';
 
     function loadDetail() {
