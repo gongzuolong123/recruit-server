@@ -162,7 +162,14 @@ class EnterpriseController extends TCApiControllerBase {
       $item->updated_at = $model->updated_at;
       $data[] = $item;
     }
-    $total = RecruitModel::countBySql('select * from recruits');
+    $total_sql = "select * from recruits";
+    if($params['enterprise_id']) $where[] = 'enterprise_id=' . $params['enterprise_id'];
+    if(!empty($_GET['status']) && intval($_GET['status']) != 1) $where[] = 'status=' . $_GET['status'];
+    if(count($where) > 0) {
+      $total_sql .= ' where ' . implode(' and ', $where);
+    }
+
+    $total = RecruitModel::countBySql($total_sql);
 
     return $this->writeSuccessJsonResponse($data, ['total' => $total, 'limit' => $limit]);
   }
@@ -278,6 +285,7 @@ class EnterpriseController extends TCApiControllerBase {
         $model->insert();
       }
     }
+
     return $this->writeSuccessJsonResponse();
   }
 
