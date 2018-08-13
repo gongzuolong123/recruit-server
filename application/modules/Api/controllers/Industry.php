@@ -5,6 +5,10 @@
  */
 class IndustryController extends TCApiControllerBase {
 
+  protected function postOnlyActions() {
+    return array("save");
+  }
+
   /**
    * 行业获取
    * @json:{
@@ -30,6 +34,25 @@ class IndustryController extends TCApiControllerBase {
     }
 
     return $this->writeSuccessJsonResponse($data);
+  }
+
+  /**
+   * 保存更新行业
+   */
+  public function saveAction() {
+    $id = intval($_POST['id']);
+    $name = trim($_POST['name']);
+    if(empty($name)) return $this->writeErrorJsonResponseCaseParamsError();
+
+    $model = IndustryModel::findById($id);
+    if(!$model) {
+      if(IndustryModel::findByAttributes(['name' => $name])) return $this->writeErrorJsonResponseCaseParamsError();
+      $model = new IndustryModel();
+    }
+    $model->name = $name;
+    $model->save();
+
+    return $this->writeSuccessJsonResponse();
   }
 
 
