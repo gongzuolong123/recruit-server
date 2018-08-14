@@ -259,9 +259,7 @@ class EnterpriseController extends TCApiControllerBase {
     $model->education = intval($_POST['education']);
     $model->save();
 
-    if(isset($_POST['tagNames']) && is_array($_POST['tagNames'])) {
-      RecruitTagModel::setTagNamesByRecruitId($model->id,$_POST['tagNames']);
-    }
+    RecruitTagModel::setTagNamesByRecruitId($model->id,$_POST['tagNames']);
 
     return $this->writeSuccessJsonResponse();
   }

@@ -34,6 +34,7 @@ class RecruitTagModel extends TCModelBase {
     $sql = "delete from recruit_tags where recruit_id=" . $recruit_id;
     TCDbManager::getInstance()->db->exec($sql);
     if(is_array($names)) {
+      $names = array_unique($names);
       foreach($names as $name) {
         $tag_id = TagModel::findOrCreateByName($name);
         $sql = "insert into recruit_tags (recruit_id,tag_id) values ({$recruit_id},{$tag_id})";
