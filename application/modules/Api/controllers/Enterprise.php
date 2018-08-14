@@ -160,6 +160,7 @@ class EnterpriseController extends TCApiControllerBase {
       $item->wages2 = $model->wages_2;
       $item->education = $model->education;
       $item->updated_at = $model->updated_at;
+      $item->tagNames = RecruitTagModel::getTagNamesByRecruitId($model->id);
       $data[] = $item;
     }
     $total_sql = "select * from recruits";
@@ -220,6 +221,7 @@ class EnterpriseController extends TCApiControllerBase {
       $data->education = (string)$model->education;
       $data->weight = $model->weight;
       $data->status = $model->status;
+      $data->tagNames = RecruitTagModel::getTagNamesByRecruitId($model->id);
     }
 
     return $this->writeSuccessJsonResponse($data);
@@ -256,6 +258,10 @@ class EnterpriseController extends TCApiControllerBase {
     $model->updated_at = date('Y-m-d H:i:s');
     $model->education = intval($_POST['education']);
     $model->save();
+
+    if(isset($_POST['tagNames']) && is_array($_POST['tagNames'])) {
+      RecruitTagModel::setTagNamesByRecruitId($model->id,$_POST['tagNames']);
+    }
 
     return $this->writeSuccessJsonResponse();
   }
