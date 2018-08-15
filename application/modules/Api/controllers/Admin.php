@@ -15,7 +15,7 @@ class AdminController extends TCApiControllerBase {
   public function loginAction() {
     $userName = $_POST['user_name'];
     $passWord = $_POST['pass_word'];
-    if(isset($this->users[$userName]) && $this->users[$userName] == $passWord) {
+    if(isset($this->admin_users[$userName]) && $this->admin_users[$userName] == $passWord) {
       $token = md5(uniqid());
       TCRedisManager::getInstance()->redis->set($token,'admin',86400 * 2);
       return $this->writeSuccessJsonResponse(['user' => $userName, 'access_token' => $token]);
