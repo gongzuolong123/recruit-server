@@ -62,7 +62,7 @@ class EnterpriseController extends TCApiControllerBase {
 
   /**
    * 保存企业
-   * @param $id 企业id (新增时要传)
+   * @param $id 企业id (修改时要传)
    * @param $industryId   行业id
    * @param $areaId    地区id
    * @param $shopName  商店名
@@ -70,7 +70,10 @@ class EnterpriseController extends TCApiControllerBase {
    * @param $license   证书图片
    */
   public function saveAction() {
-    $id = intval($_POST['id']);
+    if(!$this->role && !$this->current_user) return $this->writeErrorJsonResponseCaseParamsError();
+    if($this->role) $id = intval($_POST['id']);
+    else $id = $this->current_user->enterprise_id;
+
     $model = EnterpriseModel::findById($id);
     if(!$model) $model = new EnterpriseModel();
     $model->name = $_POST['name'];
@@ -81,6 +84,8 @@ class EnterpriseController extends TCApiControllerBase {
     $model->license = $this->saveImage('license');
     $model->license = $_POST['license'];
     $model->save();
+
+    if($this->current_user && $this->current_user->enterprise_id == 0) $this->current_user->saveAttributes(['enterprise_id' => $model->id]);
 
     return $this->writeSuccessJsonResponse();
   }
@@ -267,7 +272,7 @@ class EnterpriseController extends TCApiControllerBase {
     $model->education = intval($_POST['education']);
     $model->save();
 
-    RecruitTagModel::setTagNamesByRecruitId($model->id,$_POST['tagNames']);
+    RecruitTagModel::setTagNamesByRecruitId($model->id, $_POST['tagNames']);
 
     return $this->writeSuccessJsonResponse();
   }

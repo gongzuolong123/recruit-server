@@ -8,11 +8,26 @@ class TCApiControllerBase extends TCControllerBase {
 
   protected $role = null;
 
+  protected $current_user = null;
+
+  protected $admin_users = [
+    'admin' => 'admin',
+  ];
+
   public function init() {
     parent::init();
     Yaf_Dispatcher::getInstance()->autoRender(false);
     $this->getView()->layout = null;
     header('Access-Control-Allow-Origin:' . "*");
+
+    // 是否是admin帐户
+    if(!empty($_GET['access_token'])) {
+      $row = TCRedisManager::getInstance()->redis->get($_GET['access_token']);
+      if($row && isset($this->admin_users[$row])) {
+        $this->role = 'admin';
+      }
+    }
+    $this->current_user = UserModel::current();
   }
 
   protected function saveImage($image) {

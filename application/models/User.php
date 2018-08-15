@@ -6,11 +6,13 @@
  * @property string $weixin_id
  * @property string $created_at
  * @property int $phone_number
+ * @property int $enterprise_id
  */
 class UserModel extends TCModelBase {
 
   public function __construct() {
     $this->phone_number = 0;
+    $this->enterprise_id = 0;
   }
 
   public static function tableName() {
@@ -30,6 +32,6 @@ class UserModel extends TCModelBase {
   }
 
   protected function attributesForInsert() {
-    return array('created_at', 'phone_number');
+    return array('created_at', 'phone_number', 'enterprise_id');
   }
 }

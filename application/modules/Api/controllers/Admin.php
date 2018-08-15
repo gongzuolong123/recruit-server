@@ -8,9 +8,6 @@
 
 class AdminController extends TCApiControllerBase {
 
-  private $users = [
-    'admin' => 'admin',
-  ];
 
   /**
    * 管理员登陆
@@ -20,7 +17,7 @@ class AdminController extends TCApiControllerBase {
     $passWord = $_POST['pass_word'];
     if(isset($this->users[$userName]) && $this->users[$userName] == $passWord) {
       $token = md5(uniqid());
-      TCRedisManager::getInstance()->redis->set($token,'admin',86400 * 7);
+      TCRedisManager::getInstance()->redis->set($token,'admin',86400 * 2);
       return $this->writeSuccessJsonResponse(['user' => $userName, 'access_token' => $token]);
     }
 
@@ -34,7 +31,7 @@ class AdminController extends TCApiControllerBase {
   public function validateTokenAction() {
     $access_token = $_POST['access_token'];
     $row = TCRedisManager::getInstance()->redis->get($access_token);
-    if($row && isset($this->users[$row])) {
+    if($row && isset($this->admin_users[$row])) {
       return $this->writeSuccessJsonResponse();
     }
     return $this->writeErrorJsonResponse();
