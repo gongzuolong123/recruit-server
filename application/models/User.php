@@ -5,11 +5,12 @@
  * @property int $id
  * @property string $weixin_id
  * @property string $created_at
+ * @property int $phone_number
  */
 class UserModel extends TCModelBase {
 
   public function __construct() {
-    $this->weixin_id = '';
+    $this->phone_number = 0;
   }
 
   public static function tableName() {
@@ -17,6 +18,6 @@ class UserModel extends TCModelBase {
   }
 
   protected function attributesForInsert() {
-    return array('weixin_id', 'created_at');
+    return array('created_at', 'phone_number');
   }
 }
