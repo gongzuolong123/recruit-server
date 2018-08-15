@@ -259,7 +259,8 @@ class EnterpriseController extends TCApiControllerBase {
     $model = RecruitModel::findById($id);
     if(!$model) {
       $model = new RecruitModel();
-      $model->enterprise_id = intval($_POST['enterpriseId']);
+      if($this->role) $model->enterprise_id = intval($_POST['enterpriseId']);
+      else $model->enterprise_id = $this->current_user->enterprise_id;
     }
     $model->work_address = $_POST['workAddress'];
     $model->work_post = $_POST['workPost'];
