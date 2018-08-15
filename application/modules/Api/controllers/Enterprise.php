@@ -62,6 +62,12 @@ class EnterpriseController extends TCApiControllerBase {
 
   /**
    * 保存企业
+   * @param $id 企业id (新增时要传)
+   * @param $industryId   行业id
+   * @param $areaId    地区id
+   * @param $shopName  商店名
+   * @param $address   地址
+   * @param $license   证书图片
    */
   public function saveAction() {
     $id = intval($_POST['id']);
@@ -72,6 +78,7 @@ class EnterpriseController extends TCApiControllerBase {
     $model->area_id = $_POST['areaId'];
     $model->shop_name = $_POST['shopName'];
     $model->address = $_POST['address'];
+    $model->license = $this->saveImage('license');
     $model->license = $_POST['license'];
     $model->save();
 

@@ -13,7 +13,7 @@ class AdvertisementController extends TCApiControllerBase {
    * 企业上传广告
    * @param $adId        广告id（更新时传该参数）
    * @param $enterpriseId 企业id (新增时传该参数)
-   * @param $imagePath  图片路径
+   * @param $image       图片
    * @param $title       标题
    * @param $describe    描述
    */
@@ -24,7 +24,7 @@ class AdvertisementController extends TCApiControllerBase {
       $model = new AdvertisementModel();
       $model->enterprise_id = $_POST['enterpriseId'];
     }
-    $model->image_path = $_POST['imagePath'];
+    $model->image_path = $this->saveImage('image');
     $model->title = $_POST['title'];
     $model->describe = $_POST['describe'];
     $model->save();
