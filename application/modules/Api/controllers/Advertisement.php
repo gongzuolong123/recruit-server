@@ -18,11 +18,14 @@ class AdvertisementController extends TCApiControllerBase {
    * @param $describe    描述
    */
   public function uploadAction() {
+    if(!$this->role && !$this->current_user) return $this->writeErrorJsonResponseCaseParamsError();
+
     $ad_id = intval($_POST['adId']);
     $model = AdvertisementModel::findById($ad_id);
     if(!$model) {
       $model = new AdvertisementModel();
-      $model->enterprise_id = $_POST['enterpriseId'];
+      if($this->role) $model->enterprise_id = $_POST['enterpriseId'];
+      else $model->enterprise_id = $this->current_user->enterprise_id;
     }
     $model->image_path = $this->saveImage('image');
     $model->title = $_POST['title'];
@@ -50,7 +53,8 @@ class AdvertisementController extends TCApiControllerBase {
    * }
    */
   public function getAction() {
-    $enterpriseId = intval($_GET['enterpriseId']);
+    if($this->current_user) $enterpriseId = $this->current_user->enterprise_id;
+    else $enterpriseId = intval($_GET['enterpriseId']);
     if($enterpriseId) {
       $params['enterprise_id'] = $enterpriseId;
     }

@@ -63,6 +63,7 @@ class EnterpriseController extends TCApiControllerBase {
   /**
    * 保存企业
    * @param $id 企业id (修改时要传)
+   * @param $name    企业名
    * @param $industryId   行业id
    * @param $areaId    地区id
    * @param $shopName  商店名
@@ -94,6 +95,7 @@ class EnterpriseController extends TCApiControllerBase {
    * 删除企业
    */
   public function deleteAction() {
+    if(!$this->role && !$this->current_user) return $this->writeErrorJsonResponseCaseParamsError();
     $id = intval($_POST['id']);
     $model = EnterpriseModel::findById($id);
     if($model) $model->delete();
@@ -252,6 +254,7 @@ class EnterpriseController extends TCApiControllerBase {
    * @param $contactsPhone 联系人电话
    */
   public function saveRecruitAction() {
+    if(!$this->role && !$this->current_user) return $this->writeErrorJsonResponseCaseParamsError();
     $id = intval($_POST['id']);
     $model = RecruitModel::findById($id);
     if(!$model) {
@@ -281,6 +284,7 @@ class EnterpriseController extends TCApiControllerBase {
    * 设置招聘信息的状态
    */
   public function setRecruitStatusAction() {
+    if(!$this->role && !$this->current_user) return $this->writeErrorJsonResponseCaseParamsError();
     $id = intval($_POST['id']);
     $model = RecruitModel::findById($id);
     if(!$model) return $this->writeErrorJsonResponseCaseParamsError();
@@ -294,6 +298,7 @@ class EnterpriseController extends TCApiControllerBase {
    * 添加待导入招聘信息的文件
    */
   public function addImportAction() {
+    if(!$this->role && !$this->current_user) return $this->writeErrorJsonResponseCaseParamsError();
     if(is_array($_POST['files'])) {
       foreach($_POST['files'] as $file) {
         $model = new ImportModel();

@@ -40,6 +40,7 @@ class TagController extends TCApiControllerBase {
    * 保存更新标签
    */
   public function saveAction() {
+    if(!$this->role) return $this->writeErrorJsonResponseCaseParamsError();
     $id = intval($_POST['id']);
     $name = trim($_POST['name']);
     if(empty($name)) return $this->writeErrorJsonResponseCaseParamsError();
