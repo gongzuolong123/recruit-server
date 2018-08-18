@@ -53,6 +53,8 @@ class AdvertisementController extends TCApiControllerBase {
    * }
    */
   public function getAction() {
+    if(!$this->role && !$this->current_user) return $this->writeErrorJsonResponseCaseParamsError();
+
     if($this->current_user) $enterpriseId = $this->current_user->enterprise_id;
     else $enterpriseId = intval($_GET['enterpriseId']);
     if($enterpriseId) {
