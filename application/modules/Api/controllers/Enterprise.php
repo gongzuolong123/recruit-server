@@ -121,7 +121,7 @@ class EnterpriseController extends TCApiControllerBase {
    * 企业招聘列表
    * @param $page   分页 默认0
    * @param $enterpriseId  企业id
-   * @param $status 状态 0 正常状态，-1 删除状态 1 全部
+   * @param $status 状态 0 正常状态，-1 下架状态 1 推荐状态 99 全部
    * @json:{
    *   "status": "success",          // 接口返回状态，sucess表示成功，error表示失敗
    *   "message": "error message",   // 失败原因
