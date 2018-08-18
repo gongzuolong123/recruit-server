@@ -94,7 +94,7 @@ class EnterpriseController extends TCApiControllerBase {
     if($_POST['address']) $model->address = $_POST['address'];
     $license = $this->saveImage('license');
     if(!empty($license)) $model->license = $license;
-    if($_POST['license'])$model->license = $_POST['license'];
+    if($_POST['license']) $model->license = $_POST['license'];
     if($_POST['contactsPhone']) $model->contacts_phone = $_POST['contactsPhone'];
     if($_POST['contactsName']) $model->contacts_name = $_POST['contactsName'];
     if($_POST['status'] && $this->role == 'admin') $model->status = intval($_POST['status']);
@@ -163,7 +163,10 @@ class EnterpriseController extends TCApiControllerBase {
           $params['status'] = -1;
           break;
         case 1:
-          $params['status'] = [0, -1];
+          $params['status'] = 1;
+          break;
+        case 99:
+          $params['status'] = [-1, 0, 1];
           break;
       }
     }
