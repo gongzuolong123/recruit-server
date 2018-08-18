@@ -72,7 +72,7 @@ class EnterpriseController extends TCApiControllerBase {
    */
   public function saveAction() {
     if(!$this->role && !$this->current_user) return $this->writeErrorJsonResponseCaseParamsError();
-    if($this->role) $id = intval($_POST['id']);
+    if($this->role == "admin") $id = intval($_POST['id']);
     else $id = $this->current_user->enterprise_id;
 
     $model = EnterpriseModel::findById($id);
