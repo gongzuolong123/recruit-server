@@ -188,8 +188,8 @@ class EnterpriseController extends TCApiControllerBase {
       $item->contactsPhone = $model->contacts_phone;
       $item->areaNameAll = AreaModel::getAllAreaName($model->getEnterpriseModel()->area_id, 2);
       $item->wagesType = $model->wages_type;
-      $item->wages1 = intval($model->wages_1);
-      $item->wages2 = intval($model->wages_2);
+      $item->wages1 = $model->wages_1;
+      $item->wages2 = $model->wages_2;
       $item->education = $model->education;
       $item->updated_at = $model->updated_at;
       $item->tagNames = RecruitTagModel::getTagNamesByRecruitId($model->id);
@@ -285,8 +285,8 @@ class EnterpriseController extends TCApiControllerBase {
     $model->work_post = $_POST['workPost'];
     $model->work_require = $_POST['workRequire'];
     $model->wages = $_POST['wages'];
-    $model->wages_1 = $_POST['wages1'];
-    $model->wages_2 = $_POST['wages2'];
+    $model->wages_1 = intval($_POST['wages1']);
+    $model->wages_2 = intval($_POST['wages2']);
     $model->wages_type = $_POST['wagesType'];
     $model->contacts_name = $_POST['contactsName'];
     $model->contacts_phone = $_POST['contactsPhone'];
