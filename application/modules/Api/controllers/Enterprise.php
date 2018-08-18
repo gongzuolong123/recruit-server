@@ -43,8 +43,8 @@ class EnterpriseController extends TCApiControllerBase {
    * 企业详情
    */
   public function detailAction() {
-    $id = intval($_GET['id']);
     if($this->current_user) $id = $this->current_user->enterprise_id;
+    if(!empty($_GET['id'])) $id = intval($_GET['id']);
     $data = new stdClass();
     $model = EnterpriseModel::findById($id);
     if(!$model) return $this->writeErrorJsonResponseCaseParamsError();
