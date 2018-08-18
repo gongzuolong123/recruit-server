@@ -193,6 +193,8 @@ class EnterpriseController extends TCApiControllerBase {
       $item->education = $model->education;
       $item->updated_at = $model->updated_at;
       $item->tagNames = RecruitTagModel::getTagNamesByRecruitId($model->id);
+      $item->recommend = false;
+      if($model->status != 1) $item->recommend = false;
       $data[] = $item;
     }
     $total_sql = "select * from recruits";
