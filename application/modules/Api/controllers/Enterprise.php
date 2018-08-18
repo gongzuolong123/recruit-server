@@ -197,7 +197,7 @@ class EnterpriseController extends TCApiControllerBase {
     }
     $total_sql = "select * from recruits";
     if($params['enterprise_id']) $where[] = 'enterprise_id=' . $params['enterprise_id'];
-    if(!empty($_GET['status']) && intval($_GET['status']) != 1) $where[] = 'status=' . $_GET['status'];
+    if(!empty($_GET['status']) && intval($_GET['status']) != 99) $where[] = 'status=' . $_GET['status'];
     if(count($where) > 0) {
       $total_sql .= ' where ' . implode(' and ', $where);
     }
