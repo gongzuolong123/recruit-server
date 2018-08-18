@@ -6,7 +6,7 @@
 class AdvertisementController extends TCApiControllerBase {
 
   protected function postOnlyActions() {
-    return array("upload");
+    return array("upload","del");
   }
 
   /**
@@ -38,7 +38,6 @@ class AdvertisementController extends TCApiControllerBase {
   /**
    * 广告获取
    * @param $enterpriseId  企业id
-   * @param $status        状态 -1:删除状态,0:正常状态 1:所有状态
    * @json:{
    *   "status": "success",          // 接口返回状态，sucess表示成功，error表示失敗
    *   "message": "error message",   // 失败原因
@@ -60,10 +59,8 @@ class AdvertisementController extends TCApiControllerBase {
     if($enterpriseId) {
       $params['enterprise_id'] = $enterpriseId;
     }
-    $status = intval($_GET['status']);
-    if($status == 1) $params['status'] = [-1, 0];
-    else $params['status'] = $status;
-    $models = AdvertisementModel::findAllByAttributes($params, 'status desc,weight');
+    $params['status'] = 0;
+    $models = AdvertisementModel::findAllByAttributes($params, 'weight');
     $data = array();
     foreach($models as $model) {
       $item = new stdClass();
@@ -75,6 +72,25 @@ class AdvertisementController extends TCApiControllerBase {
     }
 
     return $this->writeSuccessJsonResponse($data);
+  }
+
+  /**
+   * 删除广告
+   * @param $id  广告id
+   */
+  public function delAction(){
+    if(!$this->role && !$this->current_user) return $this->writeErrorJsonResponseCaseParamsError();
+
+    $id = intval($_POST['id']);
+    $model = AdvertisementModel::findById($id);
+    if($model) {
+      if(($this->current_user && $this->current_user->enterprise_id == $model->enterprise_id) || $this->role == 'admin') {
+        $model->delete();
+        return $this->writeSuccessJsonResponse();
+      }
+    }
+    return $this->writeErrorJsonResponseCaseParamsError();
+
   }
 
 

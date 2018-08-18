@@ -18,7 +18,8 @@ class EnterpriseController extends TCApiControllerBase {
     $limit = 8;
     $offset = $page * $limit;
     $data = [];
-    $sql = "select * from enterprises limit {$offset},{$limit}";
+    $status = !empty($_GET['status']) ? intval($_GET['status']) : 0;
+    $sql = "select * from enterprises where status={$status} limit {$offset},{$limit}";
     $models = EnterpriseModel::findAllBySql($sql);
     foreach($models as $model) {
       $item = new stdClass();
@@ -56,6 +57,9 @@ class EnterpriseController extends TCApiControllerBase {
     $data->license = $model->license;
     $data->license_url = $this->getUrl($model->license);
     $data->address = $model->address;
+    $data->contactsName = $model->contacts_name;
+    $data->contactsPhone = $model->contacts_phone;
+    $data->status = $model->status;
 
     return $this->writeSuccessJsonResponse($data);
   }
@@ -69,6 +73,8 @@ class EnterpriseController extends TCApiControllerBase {
    * @param $shopName  商店名
    * @param $address   地址
    * @param $license   证书图片
+   * @param $contactsName  联系人姓名
+   * @param $contactsPhone   联系人电话
    */
   public function saveAction() {
     if(!$this->role && !$this->current_user) return $this->writeErrorJsonResponseCaseParamsError();
@@ -76,7 +82,10 @@ class EnterpriseController extends TCApiControllerBase {
     else $id = $this->current_user->enterprise_id;
 
     $model = EnterpriseModel::findById($id);
-    if(!$model) $model = new EnterpriseModel();
+    if(!$model) {
+      $model = new EnterpriseModel();
+      if($this->current_user) $model->status = EnterpriseModel::STATUS_REVIEW;  // 用户新增企业时默认待审核状态
+    }
     if($_POST['name']) $model->name = $_POST['name'];
     if($_POST['industryId']) $model->industry_id = intval($_POST['industryId']);
     if($_POST['areaId']) $model->area_id = intval($_POST['areaId']);
@@ -85,6 +94,9 @@ class EnterpriseController extends TCApiControllerBase {
     $license = $this->saveImage('license');
     if(!empty($license)) $model->license = $license;
     if($_POST['license'])$model->license = $_POST['license'];
+    if($_POST['contactsPhone']) $model->contacts_phone = $_POST['contactsPhone'];
+    if($_POST['contactsName']) $model->contacts_name = $_POST['contactsName'];
+    if($_POST['status'] && $this->role == 'admin') $model->status = intval($_POST['status']);
     $model->save();
 
     if($this->current_user) $this->current_user->saveAttributes(['enterprise_id' => $model->id]);
@@ -96,10 +108,10 @@ class EnterpriseController extends TCApiControllerBase {
    * 删除企业
    */
   public function deleteAction() {
-    if(!$this->role && !$this->current_user) return $this->writeErrorJsonResponseCaseParamsError();
+    if(!$this->role) return $this->writeErrorJsonResponseCaseParamsError();
     $id = intval($_POST['id']);
     $model = EnterpriseModel::findById($id);
-    if($model) $model->delete();
+    if($model) $model->status = EnterpriseModel::STATUS_DELETE;
 
     return $this->writeSuccessJsonResponse();
   }

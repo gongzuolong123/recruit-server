@@ -25,6 +25,7 @@ class RecruitModel extends TCModelBase {
 
   const WAGES_TYPE_MONTH = 1;  //月薪
   const WAGES_TYPE_YEAR = 2;   //年薪
+  const WAGES_TYPE_WEEK =3;    //周薪
 
   public function __construct() {
     $this->enterprise_id = 0;
