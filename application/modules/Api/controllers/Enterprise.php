@@ -306,8 +306,7 @@ class EnterpriseController extends TCApiControllerBase {
     $id = intval($_POST['id']);
     $model = RecruitModel::findById($id);
     if(!$model) return $this->writeErrorJsonResponseCaseParamsError();
-    $model->status = intval($_POST['status']);
-    $model->save();
+    $model->saveAttributes(['status'=>intval($_POST['status'])]);
 
     return $this->writeSuccessJsonResponse();
   }
