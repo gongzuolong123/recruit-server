@@ -78,15 +78,15 @@ class EnterpriseController extends TCApiControllerBase {
     $model = EnterpriseModel::findById($id);
     if(!$model) $model = new EnterpriseModel();
     $model->name = $_POST['name'];
-    $model->industry_id = $_POST['industryId'];
-    $model->area_id = $_POST['areaId'];
+    $model->industry_id = intval($_POST['industryId']);
+    $model->area_id = intval($_POST['areaId']);
     $model->shop_name = $_POST['shopName'];
     $model->address = $_POST['address'];
     $model->license = $this->saveImage('license');
     $model->license = $_POST['license'];
     $model->save();
 
-    if($this->current_user && $this->current_user->enterprise_id == 0) $this->current_user->saveAttributes(['enterprise_id' => $model->id]);
+    if($this->current_user) $this->current_user->saveAttributes(['enterprise_id' => $model->id]);
 
     return $this->writeSuccessJsonResponse();
   }
