@@ -12,7 +12,7 @@ class DownloadController extends TCApiControllerBase {
     $file_path = APPLICATION_PATH . $file_path;
     if(!file_exists($file_path)) return $this->writeErrorJsonResponseCaseParamsError();
     set_time_limit(0);
-    header('Content-Type: image/jpg');
+    header('Content-Type: application/octet-stream');
     header('Content-Length: ' . filesize($file_path));
     header('Content-Disposition: filename=test.jpg');
     $download_rate = 2000;
