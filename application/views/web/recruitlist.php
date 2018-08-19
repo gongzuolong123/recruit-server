@@ -62,7 +62,7 @@
             var updated_at = '';
             if(data.updated_at) updated_at = data.updated_at.substr(0,10);
             if(data.wages1 == 0 && data.wages2 == 0) wages = '面议';
-            else if(data.wages1 > 0  && data.wages2 == -1) wages = data.wages1 / 1000 + '以上';
+            else if(data.wages1 > 0  && data.wages2 == -1) wages = data.wages1 / 1000 + 'k以上';
             else wages = data.wages1 / 1000 + '-' + data.wages2 / 1000 + 'k';
             html += '<div class="item" data-id="' + data.id + '"><div class="left">';
             html += '<span class="post">' + data.workPost + '</span>';
