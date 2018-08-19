@@ -21,6 +21,7 @@ class UserController extends TCApiControllerBase {
    *       "id": 123,                // 用户id
    *       "token": "xxx",           // 用户token
    *       "expire_time": 123,       // token过期时间
+   *       "phone_number": 123,      // 手机号
    *     }
    *   ],
    * }
@@ -47,6 +48,7 @@ class UserController extends TCApiControllerBase {
       'id' => $tokenModel->id,
       'token' => $tokenModel->token,
       'expire_time' => strtotime($tokenModel->expire_time),
+      'phone_number' => $userModel->phone_number,
     ]);
   }
 
