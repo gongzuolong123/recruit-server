@@ -6,7 +6,7 @@
 class EnterpriseController extends TCApiControllerBase {
 
   protected function postOnlyActions() {
-    return array("saveRecruit", "save");
+    return array("saveRecruit", "save", "setEnterpriseStatus");
   }
 
 
@@ -104,15 +104,18 @@ class EnterpriseController extends TCApiControllerBase {
 
     return $this->writeSuccessJsonResponse();
   }
-
+  
   /**
-   * 删除企业
+   * 设置企业的状态
+   * @param $id
+   * @param $status  状态 0 正常状态，-1 删除状态 1 未审核 2 审核未通过
    */
-  public function deleteAction() {
+  public function setEnterpriseStatusAction() {
     if(!$this->role) return $this->writeErrorJsonResponseCaseParamsError();
     $id = intval($_POST['id']);
-    $model = EnterpriseModel::findById($id);
-    if($model) $model->status = EnterpriseModel::STATUS_DELETE;
+    $model = RecruitModel::findById($id);
+    if(!$model) return $this->writeErrorJsonResponseCaseParamsError();
+    $model->saveAttributes(['status' => intval($_POST['status'])]);
 
     return $this->writeSuccessJsonResponse();
   }
@@ -308,7 +311,7 @@ class EnterpriseController extends TCApiControllerBase {
     $id = intval($_POST['id']);
     $model = RecruitModel::findById($id);
     if(!$model) return $this->writeErrorJsonResponseCaseParamsError();
-    $model->saveAttributes(['status'=>intval($_POST['status'])]);
+    $model->saveAttributes(['status' => intval($_POST['status'])]);
 
     return $this->writeSuccessJsonResponse();
   }
