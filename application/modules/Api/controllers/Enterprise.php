@@ -32,6 +32,7 @@ class EnterpriseController extends TCApiControllerBase {
       $item->shopName = $model->shop_name;
       $item->license = $model->license;
       $item->address = $model->address;
+      $item->status = $model->status;
       $data[] = $item;
     }
     $total = RecruitModel::countBySql("select * from enterprises where status={$status}");
@@ -104,7 +105,7 @@ class EnterpriseController extends TCApiControllerBase {
 
     return $this->writeSuccessJsonResponse();
   }
-  
+
   /**
    * 设置企业的状态
    * @param $id
