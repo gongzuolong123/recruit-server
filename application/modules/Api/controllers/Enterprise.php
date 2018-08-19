@@ -34,7 +34,7 @@ class EnterpriseController extends TCApiControllerBase {
       $item->address = $model->address;
       $data[] = $item;
     }
-    $total = RecruitModel::countBySql('select * from enterprises');
+    $total = RecruitModel::countBySql("select * from enterprises where status={$status}");
 
     return $this->writeSuccessJsonResponse($data, ['total' => $total, 'limit' => $limit]);
   }
