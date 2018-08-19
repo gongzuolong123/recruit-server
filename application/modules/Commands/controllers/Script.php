@@ -178,6 +178,7 @@ class ScriptController extends TCControllerBase {
       if(empty($enterpriseModel->contacts_name)) {
         $model = RecruitModel::findByAttributes(['enterprise_id' => $enterpriseModel->id]);
         if($model && !empty($model->contacts_name)) {
+          if(strlen($model->contacts_name) > 20 || strlen($model->contacts_phone) > 20) continue;
           $enterpriseModel->saveAttributes(['contacts_name' => $model->contacts_name, 'contacts_phone' => $model->contacts_phone]);
         }
       }
