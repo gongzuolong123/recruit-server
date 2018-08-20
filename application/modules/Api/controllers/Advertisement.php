@@ -27,7 +27,7 @@ class AdvertisementController extends TCApiControllerBase {
       if($this->role) $model->enterprise_id = $_POST['enterpriseId'];
       else $model->enterprise_id = $this->current_user->enterprise_id;
     }
-    $model->image_path = $this->saveImage('image');
+    $model->image_path = $this->saveImage('ad');
     $model->title = $_POST['title'];
     $model->describe = $_POST['describe'];
     $model->save();
