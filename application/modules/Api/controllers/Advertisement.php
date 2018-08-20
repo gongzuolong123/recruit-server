@@ -13,7 +13,7 @@ class AdvertisementController extends TCApiControllerBase {
    * 企业上传广告
    * @param $adId        广告id（更新时传该参数）
    * @param $enterpriseId 企业id (新增时传该参数)
-   * @param $image       图片
+   * @param $ad          图片
    * @param $title       标题
    * @param $describe    描述
    */
