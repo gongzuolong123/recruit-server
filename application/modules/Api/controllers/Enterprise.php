@@ -275,7 +275,9 @@ class EnterpriseController extends TCApiControllerBase {
    * @param $wordAddress  工作地址
    * @param $wordPost     工作岗位
    * @param $wordRequire  工作要求
-   * @param $wages        工资待遇
+   * @param $wages1        工资待遇1
+   * @param $wages2        工资待遇2
+   * @param $wagesType     工资类型 1:月 2:年 3:周
    * @param $contactsName  联系人姓名
    * @param $contactsPhone 联系人电话
    */
