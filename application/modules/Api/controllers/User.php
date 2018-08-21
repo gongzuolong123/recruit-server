@@ -68,11 +68,10 @@ class UserController extends TCApiControllerBase {
    */
   public function sendMsmCodeAction() {
     $phone_number = $_POST['phone_number'];
+    if(!preg_match("/^1[345678]{1}\d{9}$/", $phone_number)) $this->writeErrorJsonResponse('手机号格式异常');
     $redis_key = "MSM_CODE_" . $phone_number;
     $row = TCRedisManager::getInstance()->redis->get($redis_key);
-    if($row) {
-      return $this->writeErrorJsonResponse('验证码发送太频繁,请稍后再发');
-    }
+    if($row) return $this->writeErrorJsonResponse('验证码发送太频繁,请稍后再发');
     $code = rand('100000', '999999');
     $response = SmsSend::sendSms($phone_number, $code);
     if($response->Code == 'OK') {
