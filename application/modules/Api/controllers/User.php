@@ -12,6 +12,7 @@ class UserController extends TCApiControllerBase {
   /**
    * 登陆
    * @param $phone_number 手机号
+   * @param $code  验证码
    * @json:{
    *   "status": "success",          // 接口返回状态，sucess表示成功，error表示失敗
    *   "message": "error message",   // 失败原因
@@ -28,7 +29,15 @@ class UserController extends TCApiControllerBase {
    */
   public function loginAction() {
     $phone_number = $_POST['phone_number'];
-    if(empty($phone_number)) return $this->writeErrorJsonResponseCaseParamsError();
+    $code = $_POST['code'];
+    if(empty($phone_number) || empty($code)) return $this->writeErrorJsonResponseCaseParamsError();
+    $redis_key = "MSM_CODE_" . $phone_number;
+    $row = TCRedisManager::getInstance()->redis->get($redis_key);
+    if(!$row || $row != $code) {
+      // 验证码不通过
+      return $this->writeErrorJsonResponse('验证码错误或失效');
+    }
+
     $userModel = UserModel::findByAttributes(['phone_number' => $phone_number]);
     if(!$userModel) {
       $userModel = new UserModel();
@@ -55,7 +64,7 @@ class UserController extends TCApiControllerBase {
 
   /**
    * 发送短信验证码
-   * @params $phone_number 手机号
+   * @param $phone_number 手机号
    */
   public function sendMsmCodeAction() {
     $phone_number = $_POST['phone_number'];
