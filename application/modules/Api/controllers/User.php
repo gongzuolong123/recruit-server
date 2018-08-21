@@ -69,7 +69,7 @@ class UserController extends TCApiControllerBase {
     if($response->Code == 'OK') {
       TCRedisManager::getInstance()->redis->set($redis_key, $code, 60);
 
-      return $this->writeErrorJsonResponse();
+      return $this->writeSuccessJsonResponse();
     } else {
       return $this->writeErrorJsonResponse($response->Message);
     }

@@ -2,7 +2,7 @@
 
 ini_set("display_errors", "on");
 
-require_once APPLICATION_DIRECTORY . '/library/aliyunsdk/dysms-api/vendor/autoload.php';
+require_once APPLICATION_DIRECTORY . '/aliyunsdk/dysms-api/vendor/autoload.php';
 
 use Aliyun\Core\Config;
 use Aliyun\Core\Profile\DefaultProfile;
