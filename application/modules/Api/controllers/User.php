@@ -75,7 +75,7 @@ class UserController extends TCApiControllerBase {
     $code = rand('100000', '999999');
     $response = SmsSend::sendSms($phone_number, $code);
     if($response->Code == 'OK') {
-      TCRedisManager::getInstance()->redis->set($redis_key, $code, 60);
+      TCRedisManager::getInstance()->redis->set($redis_key, $code, 300);
 
       return $this->writeSuccessJsonResponse();
     } else {
