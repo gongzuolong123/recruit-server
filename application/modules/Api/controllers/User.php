@@ -6,7 +6,7 @@
 class UserController extends TCApiControllerBase {
 
   protected function postOnlyActions() {
-    return array("login", "setProfile");
+    return array("login", "sendMsmCode");
   }
 
   /**
