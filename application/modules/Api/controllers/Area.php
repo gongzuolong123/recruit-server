@@ -29,6 +29,7 @@ class AreaController extends TCApiControllerBase {
       $item = new stdClass();
       $item->id = $areaModel->id;
       $item->name = $areaModel->name;
+      $item->has_sub_area = $areaModel->has_sub_area;
       $data[] = $item;
     }
 

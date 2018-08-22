@@ -173,15 +173,10 @@ class ScriptController extends TCControllerBase {
 
 
   public function test2Action() {
-    $enterpriseModels = EnterpriseModel::all();
-    foreach($enterpriseModels as $enterpriseModel) {
-      if(empty($enterpriseModel->contacts_name)) {
-        $model = RecruitModel::findByAttributes(['enterprise_id' => $enterpriseModel->id]);
-        if($model && !empty($model->contacts_name)) {
-          if(strlen($model->contacts_name) > 20 || strlen($model->contacts_phone) > 20) continue;
-          $enterpriseModel->saveAttributes(['contacts_name' => $model->contacts_name, 'contacts_phone' => $model->contacts_phone]);
-        }
-      }
+    $areaModels = AreaModel::all();
+    foreach($areaModels as $areaModel) {
+      $model = AreaModel::findByAttributes(['parent_id' => $areaModel->id]);
+      if($model) $model->saveAttributes(['has_sub_area' => 1]);
     }
   }
 
