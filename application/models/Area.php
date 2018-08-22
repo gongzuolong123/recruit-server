@@ -32,4 +32,16 @@ class AreaModel extends TCModelBase {
 
     return implode(',', array_reverse($names));
   }
+
+  public static function getAllAreaId($id, $level = 0) {
+    $ids = [];
+    while($model = self::findById($id)) {
+      if(!$model) break;
+      $ids[] = $model->id;
+      if($model->level == $level) break;
+      $id = $model->parent_id;
+    }
+
+    return implode(',', array_reverse($ids));
+  }
 }

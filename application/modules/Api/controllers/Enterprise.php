@@ -54,6 +54,7 @@ class EnterpriseController extends TCApiControllerBase {
     $data->industryId = $model->industry_id;
     $data->industryName = IndustryModel::findById($model->industry_id)->name;
     $data->areaId = $model->area_id;
+    $data->areaIds = AreaModel::getAllAreaId($model->area_id);
     $data->areaName = AreaModel::findById($model->area_id)->name;
     $data->shopName = $model->shop_name;
     $data->license = $model->license;
