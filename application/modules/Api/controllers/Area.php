@@ -23,7 +23,7 @@ class AreaController extends TCApiControllerBase {
   public function getAction() {
     $id = intval($_GET['id']);
     $data = [];
-    AreaModel::withCache(3600);
+    //AreaModel::withCache(3600);
     $areaModels = AreaModel::findAllByAttributes(['parent_id' => $id]);
     foreach($areaModels as $areaModel) {
       $item = new stdClass();
