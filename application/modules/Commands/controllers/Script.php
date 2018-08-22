@@ -176,7 +176,7 @@ class ScriptController extends TCControllerBase {
     $areaModels = AreaModel::all();
     foreach($areaModels as $areaModel) {
       $model = AreaModel::findByAttributes(['parent_id' => $areaModel->id]);
-      if($model) $model->saveAttributes(['has_sub_area' => 1]);
+      if($model) $areaModel->saveAttributes(['has_sub_area' => 1]);
     }
   }
 
