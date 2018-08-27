@@ -172,20 +172,18 @@ class ScriptController extends TCControllerBase {
   }
 
 
-  public function test2Action() {
-    $enterprises = EnterpriseModel::all();
-    foreach($enterprises as $enterpris) {
-      if($enterpris->status == EnterpriseModel::STATUS_DELETE) {
-        $sql = "update recruits set status=-1 where enterprise_id={$enterpris->id}";
-        TCDbManager::getInstance()->db->exec($sql);
-      }
+  public function test2Action($parent_id = 0) {
+    $data = [];
+    $models = AreaModel::findAllByAttributes(['parent_id' => $parent_id]);
+    foreach($models as $model) {
+      $item = new stdClass();
+      $item->id = $model->id;
+      $item->name = $model->name;
+      $s_data = $this->test2Action($model->id);
+      if($s_data) $item->areas = $s_data;
+      $data[] = $item;
     }
-
-    $recurits = RecruitModel::all();
-    foreach($recurits as $recurit) {
-      $model = EnterpriseModel::findById($recurit->enterprise_id);
-      if(!$model) $recurit->delete();
-    }
+    echo json_decode($data);
   }
 
 
