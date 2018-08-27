@@ -297,7 +297,7 @@ class EnterpriseController extends TCApiControllerBase {
       else $model->enterprise_id = $this->current_user->enterprise_id;
       $enterpriseModel = EnterpriseModel::findById($model->enterprise_id);
       if(!$enterpriseModel) return $this->writeErrorJsonResponseCaseParamsError();
-      if($enterpriseModel->status == EnterpriseModel::STATUS_DELETE) $model->status = -1;
+      if($enterpriseModel->status != EnterpriseModel::STATUS_NOMAL) $model->status = -1;
     }
     $model->work_address = $_POST['workAddress'];
     $model->work_post = $_POST['workPost'];
