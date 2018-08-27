@@ -33,6 +33,7 @@ class BannerController extends TCApiControllerBase {
       $item->id = $model->id;
       $item->name = $model->name;
       $item->image_url = $this->getUrl($model->image_path);
+      $item->weight = $model->weight;
       $data[] = $item;
     }
 
