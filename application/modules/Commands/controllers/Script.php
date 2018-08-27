@@ -173,10 +173,18 @@ class ScriptController extends TCControllerBase {
 
 
   public function test2Action() {
-    $areaModels = AreaModel::all();
-    foreach($areaModels as $areaModel) {
-      $model = AreaModel::findByAttributes(['parent_id' => $areaModel->id]);
-      if($model) $areaModel->saveAttributes(['has_sub_area' => 1]);
+    $enterprises = EnterpriseModel::all();
+    foreach($enterprises as $enterpris) {
+      if($enterpris->status == EnterpriseModel::STATUS_REVIEW) {
+        $sql = "update recruits set status=-1 where enterprise_id={$enterpris->id}";
+        TCDbManager::getInstance()->db->exec($sql);
+      }
+    }
+
+    $recurits = RecruitModel::all();
+    foreach($recurits as $recurit) {
+      $model = EnterpriseModel::findById($recurit->enterprise_id);
+      if(!$model) $recurit->delete();
     }
   }
 
