@@ -50,7 +50,8 @@ class BannerController extends TCApiControllerBase {
     if(!$model) {
       $model = new BannerModel();
     }
-    $model->image_path = $this->saveImage('banner');
+    $image_path = $this->saveImage('banner');
+    if(!empty($image_path)) $model->image_path = $image_path;
     $model->name = $_POST['name'];
     $model->weight = intval($_POST['weight']);
     $model->save();
