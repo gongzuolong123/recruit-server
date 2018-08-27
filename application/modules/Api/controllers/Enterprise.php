@@ -118,6 +118,10 @@ class EnterpriseController extends TCApiControllerBase {
     $model = EnterpriseModel::findById($id);
     if(!$model) return $this->writeErrorJsonResponseCaseParamsError();
     $model->saveAttributes(['status' => intval($_POST['status'])]);
+    if($model->status == EnterpriseModel::STATUS_DELETE) {
+      $sql = "update recruits set status=-1 where enterprise_id={$model->id}";
+      TCDbManager::getInstance()->db->exec($sql);
+    }
 
     return $this->writeSuccessJsonResponse();
   }
@@ -290,6 +294,9 @@ class EnterpriseController extends TCApiControllerBase {
       $model = new RecruitModel();
       if($this->role) $model->enterprise_id = intval($_POST['enterpriseId']);
       else $model->enterprise_id = $this->current_user->enterprise_id;
+      $enterpriseModel = EnterpriseModel::findById($model->enterprise_id);
+      if(!$enterpriseModel) return $this->writeErrorJsonResponseCaseParamsError();
+      if($enterpriseModel->status == EnterpriseModel::STATUS_DELETE) $model->status = -1;
     }
     $model->work_address = $_POST['workAddress'];
     $model->work_post = $_POST['workPost'];
