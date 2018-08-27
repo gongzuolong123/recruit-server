@@ -56,6 +56,7 @@ class EnterpriseController extends TCApiControllerBase {
     $data->areaId = $model->area_id;
     $data->areaIds = AreaModel::getAllAreaId($model->area_id);
     $data->areaName = AreaModel::findById($model->area_id)->name;
+    $data->areaNames = AreaModel::getAllAreaName($model->area_id);
     $data->shopName = $model->shop_name;
     $data->license = $model->license;
     $data->license_url = $this->getUrl($model->license);
