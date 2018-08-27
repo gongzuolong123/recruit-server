@@ -172,18 +172,23 @@ class ScriptController extends TCControllerBase {
   }
 
 
-  public function test2Action($parent_id = 0) {
+  public function test2Action() {
+    $data = $this->test2();
+    echo json_encode($data);
+  }
+
+  public function test2($parent_id = 0) {
     $data = [];
     $models = AreaModel::findAllByAttributes(['parent_id' => $parent_id]);
     foreach($models as $model) {
       $item = new stdClass();
       $item->id = $model->id;
       $item->name = $model->name;
-      $s_data = $this->test2Action($model->id);
+      $s_data = $this->test2($model->id);
       if($s_data) $item->areas = $s_data;
       $data[] = $item;
     }
-    echo json_decode($data);
+    return $data;
   }
 
 
