@@ -27,7 +27,7 @@ class BannerController extends TCApiControllerBase {
   public function getAction() {
     $data = [];
     BannerModel::withCache(600);
-    $models = BannerModel::findAllBySql("select * from bannels order by weight");
+    $models = BannerModel::findAllBySql("select * from banners order by weight");
     foreach($models as $model) {
       $item = new stdClass();
       $item->id = $model->id;
