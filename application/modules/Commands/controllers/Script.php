@@ -175,7 +175,7 @@ class ScriptController extends TCControllerBase {
   public function test2Action() {
     $enterprises = EnterpriseModel::all();
     foreach($enterprises as $enterpris) {
-      if($enterpris->status == EnterpriseModel::STATUS_REVIEW) {
+      if($enterpris->status == EnterpriseModel::STATUS_DELETE) {
         $sql = "update recruits set status=-1 where enterprise_id={$enterpris->id}";
         TCDbManager::getInstance()->db->exec($sql);
       }
