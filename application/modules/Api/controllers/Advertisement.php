@@ -26,6 +26,7 @@ class AdvertisementController extends TCApiControllerBase {
       $model = new AdvertisementModel();
       if($this->role) $model->enterprise_id = $_POST['enterpriseId'];
       else $model->enterprise_id = $this->current_user->enterprise_id;
+      if(!$model->enterprise_id) return $this->writeErrorJsonResponse('找不到企业数据');
     }
     $model->image_path = $this->saveImage('ad');
     $model->title = $_POST['title'];
@@ -56,8 +57,8 @@ class AdvertisementController extends TCApiControllerBase {
 
     if($this->current_user) $enterpriseId = $this->current_user->enterprise_id;
     else $enterpriseId = intval($_GET['enterpriseId']);
-    if(!$enterpriseId) return $this->writeErrorJsonResponseCaseParamsError();
-    
+    if(!$enterpriseId) return $this->writeErrorJsonResponse('找不到企业数据');
+
     $params['enterprise_id'] = $enterpriseId;
     $params['status'] = 0;
     $models = AdvertisementModel::findAllByAttributes($params, 'weight');
