@@ -56,9 +56,9 @@ class AdvertisementController extends TCApiControllerBase {
 
     if($this->current_user) $enterpriseId = $this->current_user->enterprise_id;
     else $enterpriseId = intval($_GET['enterpriseId']);
-    if($enterpriseId) {
-      $params['enterprise_id'] = $enterpriseId;
-    }
+    if(!$enterpriseId) return $this->writeErrorJsonResponseCaseParamsError();
+    
+    $params['enterprise_id'] = $enterpriseId;
     $params['status'] = 0;
     $models = AdvertisementModel::findAllByAttributes($params, 'weight');
     $data = array();
