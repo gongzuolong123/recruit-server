@@ -9,13 +9,12 @@
 <div id="Recruit_List">
 <!--  <div class="item" data-id="">-->
 <!--    <div class="left">-->
-<!--      <span class="post">UI设计师</span>-->
-<!--      <span class="area">昆市市 | 玉江镇</span>-->
-<!--      <span class="wages">3-6k</span>-->
-<!--      <span class="date">07月31日</span>-->
 <!--      <span class="name">昆山开发区青春饭餐厅</span>-->
-<!--      <span class="ppnumber">150-500人 | </span>-->
-<!--      <span class="industry">服务业</span>-->
+<!--      <span class="post">UI设计师</span>-->
+<!--      <span class="tags">玉江镇</span>-->
+<!--      <span class="tags">玉江镇</span>-->
+<!--      <span class="tags">玉江镇</span>-->
+<!--      <span class="wages">3-6k</span>-->
 <!--    </div>-->
 <!--  </div>-->
 
@@ -27,16 +26,13 @@
 <style>
   body{margin:0px}
   #Recruit_List{max-width:550px;margin:0px auto}
-  .item{padding:15px 8px;position:relative;border-bottom:3px solid rgba(20,126,251,0.3)}
+  .item{padding:15px 8px;position:relative;border-bottom:3px solid rgb(242, 244, 247)}
   .item .left{display:inline-block;vertical-align:middle;max-width:80%}
   .item .left span{display:block}
-  .item .left .wages{color:rgb(128,137,254);font-size:16px;position:absolute;right:10px;top:15px}
-  .item .left .date{color:rgb(122,122,122);font-size:14px;position:absolute;right:10px;top:42px;}
-  .item .left .post{color:rgb(60,60,60);font-size:16px;font-weight:500}
-  .item .left .name{color:#303030;font-size:15px;margin-top:10px}
-  .item .left .area{font-size:14px;color:rgb(122,122,122);}
-  .item .left .ppnumber{display:inline-block;font-size:14px;color:rgb(122,122,122)}
-  .item .left .industry{display:inline-block;font-size:14px;color:rgb(122,122,122);margin-left:4px}
+  .item .left .name{color:#303030;font-size:17px;}
+  .item .left .post{font-size:14px;margin:7px 0px;color:rgb(128, 128, 128)}
+  .item .left .wages{color:#F38D81;font-size:16px;position:absolute;right:10px;top:15px}
+  .item .left .tags{display:inline-block;background-color:rgb(244, 246, 249);padding:3px 5px;font-size:12px;margin-right:5px;color:rgb(128, 128, 128)}
 </style>
 
 <script>
@@ -49,8 +45,8 @@
     function loadItems(all) {
       if(is_load_item) return;
       is_load_item = true;
-      var url = apiUrl + '?page=' + page;
-      if(all == true) url = apiUrl + '?page=' + page + '&offset=0';
+      var url = apiUrl + '?status=1&page=' + page;
+      if(all == true) url = apiUrl + '?status=1&page=' + page + '&offset=0';
       $.ajax({
         url: url,
         type: "GET",
@@ -62,16 +58,17 @@
             var updated_at = '';
             if(data.updated_at) updated_at = data.updated_at.substr(0,10);
             if(data.wages1 == 0 && data.wages2 == 0) wages = '面议';
-            else if(data.wages1 > 0  && data.wages2 == -1) wages = data.wages1 / 1000 + 'k以上';
-            else wages = data.wages1 / 1000 + '-' + data.wages2 / 1000 + 'k';
+            else if(data.wages1 > 0  && data.wages2 == -1) wages = data.wages1 + '以上';
+            else wages = data.wages1 + '-' + data.wages2;
             html += '<div class="item" data-id="' + data.id + '"><div class="left">';
-            html += '<span class="post">' + data.workPost + '</span>';
-            html += '<span class="area">' + data.areaNameAll.replace(',',' | ') + '</span>';
-            html += '<span class="wages">' + wages + '</span>';
-            html += '<span class="date">' + updated_at + '</span>';
             html += '<span class="name">' + data.shopName + '</span>';
-            html += '<span class="ppnumber">150-500人 |</span>';
-            html += '<span class="industry">' + data.industryName + '</span>';
+            html += '<span class="post">' + data.workPost + '</span>';
+            html += '<span class="tags">' + data.areaName + '</span>';
+            html += '<span class="tags">' + data.industryName + '</span>';
+            if(data.tagNames.lenght > 0) {
+              html += '<span class="tags">' + data.tagNames[0] + '</span>';
+            }
+            html += '<span class="wages">' + wages + '</span>';
             html += '</div></div>';
           }
           if(html != '') {
