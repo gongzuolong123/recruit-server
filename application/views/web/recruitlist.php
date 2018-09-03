@@ -26,12 +26,12 @@
 <style>
   body{margin:0px}
   #Recruit_List{max-width:550px;margin:0px auto}
-  .item{padding:15px 8px;position:relative;border-bottom:3px solid rgb(242, 244, 247)}
+  .item{padding:12px 8px;position:relative;border-bottom:3px solid rgb(242, 244, 247)}
   .item .left{display:inline-block;vertical-align:middle;max-width:80%}
   .item .left span{display:block}
-  .item .left .name{color:#303030;font-size:17px;}
-  .item .left .post{font-size:14px;margin:7px 0px;color:rgb(128, 128, 128)}
-  .item .left .wages{color:#F38D81;font-size:16px;position:absolute;right:10px;top:15px}
+  .item .left .name{color:#303030;font-size:16px;}
+  .item .left .post{font-size:14px;margin:6px 0px;color:rgb(128, 128, 128)}
+  .item .left .wages{color:#F38D81;font-size:15px;position:absolute;right:10px;top:15px}
   .item .left .tags{display:inline-block;background-color:rgb(244, 246, 249);padding:3px 5px;font-size:12px;margin-right:5px;color:rgb(128, 128, 128)}
 </style>
 
