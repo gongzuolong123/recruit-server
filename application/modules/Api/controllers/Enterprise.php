@@ -165,9 +165,9 @@ class EnterpriseController extends TCApiControllerBase {
     if(!empty($_GET['enterpriseId'])) {
       $params['enterprise_id'] = intval($_GET['enterpriseId']);
     }
-//    if(!isset($params['enterprise_id']) && $this->current_user) {
-//      $params['enterprise_id'] = $this->current_user->enterprise_id;
-//    }
+    if(!isset($params['enterprise_id']) && $this->current_user) {
+      $params['enterprise_id'] = $this->current_user->enterprise_id;
+    }
     if(!empty($_GET['status'])) {
       switch(intval($_GET['status'])) {
         case 0:
