@@ -26,7 +26,7 @@
 <style>
   body{margin:0px}
   #Recruit_List{max-width:550px;margin:0px auto}
-  .item{padding:12px 8px;position:relative;border-bottom:3px solid rgb(242, 244, 247)}
+  .item{padding:10px 8px;position:relative;border-bottom:3px solid rgb(242, 244, 247)}
   .item .left{display:inline-block;vertical-align:middle;max-width:80%}
   .item .left span{display:block}
   .item .left .name{color:#303030;font-size:16px;}
