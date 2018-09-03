@@ -7,16 +7,16 @@
 </head>
 <body>
 <div id="Recruit_List">
-<!--  <div class="item" data-id="">-->
-<!--    <div class="left">-->
-<!--      <span class="name">昆山开发区青春饭餐厅</span>-->
-<!--      <span class="post">UI设计师</span>-->
-<!--      <span class="tags">玉江镇</span>-->
-<!--      <span class="tags">玉江镇</span>-->
-<!--      <span class="tags">玉江镇</span>-->
-<!--      <span class="wages">3-6k</span>-->
-<!--    </div>-->
-<!--  </div>-->
+  <!--  <div class="item" data-id="">-->
+  <!--    <div class="left">-->
+  <!--      <span class="name">昆山开发区青春饭餐厅</span>-->
+  <!--      <span class="post">UI设计师</span>-->
+  <!--      <span class="tags">玉江镇</span>-->
+  <!--      <span class="tags">玉江镇</span>-->
+  <!--      <span class="tags">玉江镇</span>-->
+  <!--      <span class="wages">3-6k</span>-->
+  <!--    </div>-->
+  <!--  </div>-->
 
 </div>
 
@@ -56,9 +56,9 @@
             var data = result.data[i];
             var wages = data.wages;
             var updated_at = '';
-            if(data.updated_at) updated_at = data.updated_at.substr(0,10);
+            if(data.updated_at) updated_at = data.updated_at.substr(0, 10);
             if(data.wages1 == 0 && data.wages2 == 0) wages = '面议';
-            else if(data.wages1 > 0  && data.wages2 == -1) wages = data.wages1 + '以上';
+            else if(data.wages1 > 0 && data.wages2 == -1) wages = data.wages1 + '以上';
             else wages = data.wages1 + '-' + data.wages2;
             html += '<div class="item" data-id="' + data.id + '"><div class="left">';
             html += '<span class="name">' + data.shopName + '</span>';
@@ -66,7 +66,9 @@
             html += '<span class="tags">' + data.areaName + '</span>';
             html += '<span class="tags">' + data.industryName + '</span>';
             if(data.tagNames.lenght > 0) {
-              html += '<span class="tags">' + data.tagNames[0] + '</span>';
+              for(var i = 0; i < data.tagNames.lenght; i++) {
+                html += '<span class="tags">' + data.tagNames[i] + '</span>';
+              }
             }
             html += '<span class="wages">' + wages + '</span>';
             html += '</div></div>';
@@ -81,10 +83,10 @@
             }
           }
 
-          $('.item').click(function(){
+          $('.item').click(function() {
             var id = $(this).attr('data-id');
-            setCookie('page',page,60);
-            setCookie('scroll',$(document).scrollTop(),160);
+            setCookie('page', page, 60);
+            setCookie('scroll', $(document).scrollTop(), 160);
             location.href = '<?= $base_uri?>' + '/web/recruitdetail?id=' + id;
           })
 
@@ -101,55 +103,58 @@
 
     function getDocumentTop() {
       var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
-      if (document.body) {
+      if(document.body) {
         bodyScrollTop = document.body.scrollTop;
       }
-      if (document.documentElement) {
+      if(document.documentElement) {
         documentScrollTop = document.documentElement.scrollTop;
       }
       scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
       return scrollTop;
     }
+
     //可视窗口高度
 
     function getWindowHeight() {
       var windowHeight = 0;
-      if (document.compatMode == "CSS1Compat") {
+      if(document.compatMode == "CSS1Compat") {
         windowHeight = document.documentElement.clientHeight;
       } else {
         windowHeight = document.body.clientHeight;
       }
       return windowHeight;
     }
+
     //滚动条滚动高度
     function getScrollHeight() {
       var scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
-      if (document.body) {
+      if(document.body) {
         bodyScrollHeight = document.body.scrollHeight;
       }
-      if (document.documentElement) {
+      if(document.documentElement) {
         documentScrollHeight = document.documentElement.scrollHeight;
       }
       scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
       return scrollHeight;
     }
-    window.onscroll = function () {
+
+    window.onscroll = function() {
       //监听事件内容
-      if (getScrollHeight() == getWindowHeight() + getDocumentTop()) {
+      if(getScrollHeight() == getWindowHeight() + getDocumentTop()) {
         //当滚动条到底时,这里是触发内容
         loadItems();
       }
     };
 
-    function setCookie(name,value,s) {
+    function setCookie(name, value, s) {
       var exp = new Date();
-      exp.setTime(exp.getTime() + s*1000);
-      document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+      exp.setTime(exp.getTime() + s * 1000);
+      document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
     }
 
     function getCookie(name) {
-      var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-      if(arr=document.cookie.match(reg))
+      var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+      if(arr = document.cookie.match(reg))
         return unescape(arr[2]);
       else
         return null;
