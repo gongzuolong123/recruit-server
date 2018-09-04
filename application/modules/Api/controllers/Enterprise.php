@@ -183,7 +183,7 @@ class EnterpriseController extends TCApiControllerBase {
           break;
       }
     }
-    $models = RecruitModel::findAllByAttributes($params, 'status desc,refresh_time desc', "{$offset},{$limit}");
+    $models = RecruitModel::findAllByAttributes($params, 'status desc,refresh_time', "{$offset},{$limit}");
     foreach($models as $model) {
       $item = new stdClass();
       $item->id = $model->id;
