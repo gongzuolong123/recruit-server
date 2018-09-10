@@ -1,3 +1,4 @@
+listen 443 http2;
 ssl on;
 
 ssl_session_timeout 5m;
