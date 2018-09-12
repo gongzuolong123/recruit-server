@@ -187,6 +187,7 @@ class ScriptController extends TCControllerBase {
       if(count($v->areas) > 0) $this->printd($v->areas, $level + 1);
       else echo PHP_EOL;
     }
+    echo PHP_EOL;
   }
 
   public function test2($parent_id = 0) {
