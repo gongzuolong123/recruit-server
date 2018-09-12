@@ -183,9 +183,8 @@ class ScriptController extends TCControllerBase {
       for($i = 0; $i < $level; $i++) {
         echo "\t";
       }
-      echo $v->name;
+      echo $v->name . PHP_EOL;
       if(count($v->areas) > 0) $this->printd($v->areas, $level + 1);
-      else echo PHP_EOL;
     }
     echo PHP_EOL;
   }
