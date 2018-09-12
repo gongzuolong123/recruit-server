@@ -174,7 +174,18 @@ class ScriptController extends TCControllerBase {
 
   public function test2Action() {
     $data = $this->test2();
-    echo json_encode($data);
+
+  }
+
+  public function printd($data, $level = 0) {
+    foreach($data as $v) {
+      for($i = 0; $i < $level; $i++) {
+        echo "\t";
+      }
+      echo $v->name;
+      if(count($v->areas) > 0) $this->printd($v->areas, $level + 1);
+      else echo PHP_EOL;
+    }
   }
 
   public function test2($parent_id = 0) {
@@ -188,6 +199,7 @@ class ScriptController extends TCControllerBase {
       if($s_data) $item->areas = $s_data;
       $data[] = $item;
     }
+
     return $data;
   }
 
