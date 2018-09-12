@@ -174,6 +174,7 @@ class ScriptController extends TCControllerBase {
 
   public function test2Action() {
     $data = $this->test2();
+    $this->printd($data);
 
   }
 
