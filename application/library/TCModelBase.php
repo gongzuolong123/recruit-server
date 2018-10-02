@@ -175,8 +175,16 @@ abstract class TCModelBase {
         }
         $sql .= " and `{$k}` in (" . join(',', $sql_in_items) . ")";
       } else {
-        $sql .= " and `{$k}`=:{$k}";
-        $params[":{$k}"] = $v;
+        if(substr($v,1,3) == ':_:') {
+          // :_:<=:_:1
+          $values = explode(":_:",$v);
+          if(count($values) != 3) continue;
+          $sql .= " and `{$k}`{$values[1]}:{$k}";
+          $params[":{$k}"] = $values[2];
+        } else {
+          $sql .= " and `{$k}`=:{$k}";
+          $params[":{$k}"] = $v;
+        }
       }
     }
     if(!empty($order)) {
