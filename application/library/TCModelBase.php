@@ -175,7 +175,7 @@ abstract class TCModelBase {
         }
         $sql .= " and `{$k}` in (" . join(',', $sql_in_items) . ")";
       } else {
-        if(substr($v,1,3) == ':_:') {
+        if(substr($v,0,3) == ':_:') {
           // :_:<=:_:1
           $values = explode(":_:",$v);
           if(count($values) != 3) continue;
