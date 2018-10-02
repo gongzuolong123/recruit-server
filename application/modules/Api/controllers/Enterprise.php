@@ -17,11 +17,17 @@ class EnterpriseController extends TCApiControllerBase {
     $data = [];
     // 地区,行业
     $data['area'] = ['param_name' => 'areaId', 'data' => []];
-    $data['industry'] = ['param_name' => 'industryId', 'data' => []];
-    $sql = "select distinct area_id,industry_id from enterprises where status=0";
+
+    $sql = "select distinct area_id from enterprises where status=0";
     $models = EnterpriseModel::findAllBySql($sql);
     foreach($models as $model) {
       $data['area']['data'][] = ['id' => $model->area_id, 'name' => AreaModel::findById($model->area_id)->name];
+    }
+    // 行业
+    $data['industry'] = ['param_name' => 'industryId', 'data' => []];
+    $sql = "select distinct industry_id from enterprises where status=0";
+    $models = EnterpriseModel::findAllBySql($sql);
+    foreach($models as $model) {
       $data['industry']['data'][] = ['id' => $model->industry_id, 'name' => IndustryModel::findById($model->industry_id)->name];
     }
     // 职位
@@ -33,15 +39,16 @@ class EnterpriseController extends TCApiControllerBase {
     }
     // 薪资
     $data['wages'] = ['param_name' => 'wages', 'data' => [
-      ['id' => '2000,3000','name' =>'2000-3000'],
-      ['id' => '3000,4000','name' =>'3000-4000'],
-      ['id' => '4000,5000','name' =>'4000-5000'],
-      ['id' => '5000,6000','name' =>'5000-6000'],
-      ['id' => '6000,7000','name' =>'6000-7000'],
-      ['id' => '7000,8000','name' =>'7000-8000'],
-      ['id' => '8000,9000','name' =>'8000-9000'],
-      ['id' => '10000','name' =>'10000以上'],
+      ['id' => '2000,3000', 'name' => '2000-3000'],
+      ['id' => '3000,4000', 'name' => '3000-4000'],
+      ['id' => '4000,5000', 'name' => '4000-5000'],
+      ['id' => '5000,6000', 'name' => '5000-6000'],
+      ['id' => '6000,7000', 'name' => '6000-7000'],
+      ['id' => '7000,8000', 'name' => '7000-8000'],
+      ['id' => '8000,9000', 'name' => '8000-9000'],
+      ['id' => '10000', 'name' => '10000以上'],
     ]];
+
     return $this->writeSuccessJsonResponse($data);
   }
 
@@ -224,14 +231,15 @@ class EnterpriseController extends TCApiControllerBase {
     }
     $filter_enterprise_params = [];
     if(!empty($_GET['areaId'])) {
-      $filter_enterprise_params['area_id'] = $_GET['areaId'];
+      $filter_enterprise_params['area_id'] = explode(',', $_GET['areaId']);
     }
     if(!empty($_GET['industryId'])) {
-      $filter_enterprise_params['industry_id'] = $_GET['industryId'];
+      $filter_enterprise_params['industry_id'] = explode(',', $_GET['industryId']);
     }
     if(count($filter_enterprise_params) > 0) {
       $filter_enterprise_params['status'] = 0;
       $filter_enterprise = EnterpriseModel::findAllByAttributes($filter_enterprise_params);
+      if($filter_enterprise) $params['enterprise_id'] = [];
       foreach($filter_enterprise as $model) {
         $params['enterprise_id'][] = $model->id;
       }
@@ -242,7 +250,7 @@ class EnterpriseController extends TCApiControllerBase {
       if($wages[1] && $wages[1] > 0) $params['wages_1'] = ":_:<=:_:{$wages[1]}";
     }
     if(!empty($_GET['workPost'])) {
-      $params['work_post'] = trim($_GET['workPost']);
+      $params['work_post'] = explode(',', trim($_GET['workPost']));
     }
     $models = RecruitModel::findAllByAttributes($params, 'status desc,refresh_time', "{$offset},{$limit}");
     foreach($models as $model) {
