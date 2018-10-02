@@ -209,10 +209,7 @@ class EnterpriseController extends TCApiControllerBase {
     $data = [];
     $params['status'] = [0];
     if(!empty($_GET['enterpriseId'])) {
-      $params['enterprise_id'] = intval($_GET['enterpriseId']);
-    }
-    if(!isset($params['enterprise_id']) && $this->current_user) {
-      $params['enterprise_id'] = $this->current_user->enterprise_id;
+      $params['enterprise_id'][] = intval($_GET['enterpriseId']);
     }
     if(!empty($_GET['status'])) {
       switch(intval($_GET['status'])) {
@@ -239,7 +236,6 @@ class EnterpriseController extends TCApiControllerBase {
     if(count($filter_enterprise_params) > 0) {
       $filter_enterprise_params['status'] = 0;
       $filter_enterprise = EnterpriseModel::findAllByAttributes($filter_enterprise_params);
-      if($filter_enterprise) $params['enterprise_id'] = [];
       foreach($filter_enterprise as $model) {
         $params['enterprise_id'][] = $model->id;
       }
@@ -247,11 +243,16 @@ class EnterpriseController extends TCApiControllerBase {
     if(!empty($_GET['wages'])) {
       $wages = explode(',', $_GET['wages']);
       if($wages[0] && $wages[0] > 0) $params['wages_1'] = ":_:>=:_:{$wages[0]}";
-      if($wages[1] && $wages[1] > 0) $params['wages_1'] = ":_:<=:_:{$wages[1]}";
+      if($wages[1] && $wages[1] > 0) $params['wages_2'] = ":_:<=:_:{$wages[1]}";
     }
     if(!empty($_GET['workPost'])) {
       $params['work_post'] = explode(',', trim($_GET['workPost']));
     }
+
+    if(!isset($params['enterprise_id']) && $this->current_user) {
+      $params['enterprise_id'][] = $this->current_user->enterprise_id;
+    }
+
     $models = RecruitModel::findAllByAttributes($params, 'status desc,refresh_time', "{$offset},{$limit}");
     foreach($models as $model) {
       $item = new stdClass();
@@ -280,7 +281,7 @@ class EnterpriseController extends TCApiControllerBase {
       $data[] = $item;
     }
     $total_sql = "select * from recruits";
-    if($params['enterprise_id']) $where[] = 'enterprise_id=' . $params['enterprise_id'];
+    if($params['enterprise_id']) $where[] = 'enterprise_id in (' . join(',', $params['enterprise_id']) . ')';
     if(!empty($_GET['status']) && intval($_GET['status']) != 99) $where[] = 'status=' . $_GET['status'];
     if(count($where) > 0) {
       $total_sql .= ' where ' . implode(' and ', $where);
