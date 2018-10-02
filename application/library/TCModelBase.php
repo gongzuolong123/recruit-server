@@ -207,8 +207,29 @@ abstract class TCModelBase {
     $sql = "select count(*) from " . static::tableName() . " where 1";
     $params = [];
     foreach($attributes as $k => $v) {
-      $sql .= " and `{$k}`=:{$k}";
-      $params[":{$k}"] = $v;
+      // 对属性值传入数组的情况进行支持
+      if(is_array($v) && !empty($v)) {
+        $index = 0;
+        $sql_in_items = [];
+        foreach($v as $v_item) {
+          $param = ":{$k}{$index}";
+          $sql_in_items[] = $param;
+          $params[$param] = $v_item;
+          $index++;
+        }
+        $sql .= " and `{$k}` in (" . join(',', $sql_in_items) . ")";
+      } else {
+        if(substr($v,0,3) == ':_:') {
+          // :_:<=:_:1
+          $values = explode(":_:",$v);
+          if(count($values) != 3) continue;
+          $sql .= " and `{$k}`{$values[1]}:{$k}";
+          $params[":{$k}"] = $values[2];
+        } else {
+          $sql .= " and `{$k}`=:{$k}";
+          $params[":{$k}"] = $v;
+        }
+      }
     }
 
     return static::countBySql($sql, $params);
