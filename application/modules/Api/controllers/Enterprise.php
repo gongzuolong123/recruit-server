@@ -253,7 +253,7 @@ class EnterpriseController extends TCApiControllerBase {
       $params['enterprise_id'][] = $this->current_user->enterprise_id;
     }
 
-    $models = RecruitModel::findAllByAttributes($params, 'status desc,refresh_time', "{$offset},{$limit}");
+    $models = RecruitModel::findAllByAttributes($params, 'status desc,refresh_time desc', "{$offset},{$limit}");
     foreach($models as $model) {
       $item = new stdClass();
       $item->id = $model->id;
@@ -280,12 +280,6 @@ class EnterpriseController extends TCApiControllerBase {
       if($model->status == 1) $item->recommend = true;
       $data[] = $item;
     }
-//    $total_sql = "select * from recruits";
-//    if($params['enterprise_id']) $where[] = 'enterprise_id in (' . join(',', $params['enterprise_id']) . ')';
-//    if(!empty($_GET['status']) && intval($_GET['status']) != 99) $where[] = 'status=' . $_GET['status'];
-//    if(count($where) > 0) {
-//      $total_sql .= ' where ' . implode(' and ', $where);
-//    }
 
     $total = RecruitModel::countByAttributes($params);
 

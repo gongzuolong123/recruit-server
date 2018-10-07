@@ -204,5 +204,14 @@ class ScriptController extends TCControllerBase {
     return $data;
   }
 
+  public function fixWeightAction() {
+    $time = time();
+    $sql = "select * from recruits order by refresh_time";
+    $models = RecruitModel::findAllBySql($sql);
+    foreach($models as $model) {
+      $model->saveAttributes(['refresh_time' => date('Y-m-d H:i:s',--$time)]);
+    }
+  }
+
 
 }
