@@ -266,13 +266,15 @@ class EnterpriseController extends TCApiControllerBase {
       $item->workRequire = $model->work_require;
       $item->status = $model->status;
       $item->weight = $model->weight;
-      $item->wages = $model->wages;
       $item->contactsName = $model->contacts_name;
       $item->contactsPhone = $model->contacts_phone;
       $item->areaNameAll = AreaModel::getAllAreaName($model->getEnterpriseModel()->area_id, 2);
       $item->wagesType = $model->wages_type;
       $item->wages1 = $model->wages_1;
       $item->wages2 = $model->wages_2;
+      $wages = $item->wages1 . '-' . $item->wages2;
+      if($item->wages2 <= 0) $wages = $model->wages_1 . '以上';
+      $item->wages = $wages;
       $item->education = $model->education;
       $item->updated_at = $model->updated_at;
       $item->tagNames = RecruitTagModel::getTagNamesByRecruitId($model->id);
