@@ -13,6 +13,7 @@ class UserController extends TCApiControllerBase {
    * 登陆
    * @param $phone_number 手机号
    * @param $code  验证码
+   * @param $type  用户类型 1:b端 2:c端
    * @json:{
    *   "status": "success",          // 接口返回状态，sucess表示成功，error表示失敗
    *   "message": "error message",   // 失败原因
@@ -29,6 +30,8 @@ class UserController extends TCApiControllerBase {
    */
   public function loginAction() {
     $phone_number = $_POST['phone_number'];
+    $type = intval($_POST['type']);
+    if(!$type) $type = 1;
     $code = $_POST['code'];
     if(empty($phone_number) || empty($code)) return $this->writeErrorJsonResponseCaseParamsError();
     $redis_key = "MSM_CODE_" . $phone_number;
@@ -42,6 +45,7 @@ class UserController extends TCApiControllerBase {
     if(!$userModel) {
       $userModel = new UserModel();
       $userModel->phone_number = $phone_number;
+      $userModel->type = $type;
       $userModel->insert();
     }
     $tokenModel = UserTokenModel::findById($userModel->id);

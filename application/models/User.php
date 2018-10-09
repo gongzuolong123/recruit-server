@@ -10,6 +10,9 @@
  */
 class UserModel extends TCModelBase {
 
+  const TYPE_B = 1;  // b端用户
+  const TYPE_C = 2;  // c端用户
+
   public function __construct() {
     $this->phone_number = 0;
     $this->enterprise_id = 0;
@@ -29,6 +32,10 @@ class UserModel extends TCModelBase {
     UserModel::withCache(3600);
 
     return UserModel::findById($model->id);
+  }
+
+  public function getProfile() {
+    return UserPorfileModel::findById($this->id);
   }
 
   protected function attributesForInsert() {

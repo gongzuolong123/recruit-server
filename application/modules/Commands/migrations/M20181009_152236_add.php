@@ -8,9 +8,10 @@ class M20181009_152236_add extends TCMigrationBase {
       'enterprise_id' => 'int not null default 0',
       'updated_at' => 'datetime',
       'key user_id (user_id)',
-      'key updated_at (updated_at)'
+      'key updated_at (updated_at)',
+      'unique key record (user_id,enterprise_id)',
     ]);
-    $this->addColumn('users','type','tinyint not null default 0');
+    $this->addColumn('users', 'type', 'tinyint not null default 0');
     $this->createTable('user_profiles', [
       'id' => 'integer not null primary key',
       'name' => 'varchar(255) not null default ""',
@@ -19,10 +20,10 @@ class M20181009_152236_add extends TCMigrationBase {
       'city' => 'varchar(255) not null default ""',
     ]);
   }
-  
+
   public function down() {
     $this->dropTable('history_call_phone');
-    $this->dropColumn('users','type');
+    $this->dropColumn('users', 'type');
     $this->dropTable('user_profiles');
   }
 }
