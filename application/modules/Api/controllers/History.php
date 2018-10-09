@@ -1,22 +1,20 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: gzl
- * Date: 2018/10/9
- * Time: 下午10:13
+ * 记录相关
  */
 
 class HistoryController extends TCApiControllerBase {
 
   protected function postOnlyActions() {
-    return array("callPhoneUpData");
+    return array("callPhoneUp");
   }
 
   /**
    * 上传打电话记录
    * @param $enterprise_id  企业id
    */
-  public function callPhoneUpDataAction() {
+  public function callPhoneUpAction() {
     if(!$this->current_user || empty($_POST['enterprise_id'])) return $this->writeErrorJsonResponseCaseParamsError();
     $sql = "insert into history_call_phone (user_id,enterprise_id,updated_at) values (:user_id,:enterprise_id,:updated_at) on 
     duplicate key update updated_at=values(updated_at)";
