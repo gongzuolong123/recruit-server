@@ -279,5 +279,15 @@ class DocumentsController extends TCControllerBase {
     return $document;
   }
 
+
+  public function documentForTrackAction(){
+    $this->getView()->assign('breadcrumbs', [
+      '首页' => '/',
+      'API文档' => '/documents/api',
+      '数据跟踪文档' => '/documents/api?page=Track',
+      "track跟踪详细说明",
+    ]);
+  }
+
 }
 
