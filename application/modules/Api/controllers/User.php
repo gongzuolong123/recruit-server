@@ -89,10 +89,10 @@ class UserController extends TCApiControllerBase {
 
   /**
    * 保存用户信息
-   * @param $name
+   * @param $name    姓名
    * @parma $gender  男:1 女:2
-   * @param $birth_date
-   * @param $city
+   * @param $birth_date  出生日期
+   * @param $city    城市
    */
   public function saveProfileAction() {
     if(!$this->current_user) return $this->writeErrorJsonResponse();
