@@ -90,8 +90,8 @@ class UserController extends TCApiControllerBase {
   /**
    * 保存用户信息
    * @param $name    姓名
-   * @parma $gender  男:1 女:2
-   * @parma $birth_date  出生日期
+   * @param $gender  男:1 女:2
+   * @param $birth_date  出生日期
    * @param $city    城市
    */
   public function saveProfileAction() {
