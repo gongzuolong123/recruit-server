@@ -6,7 +6,7 @@
 class UserController extends TCApiControllerBase {
 
   protected function postOnlyActions() {
-    return array("login", "sendMsmCode");
+    return array("login", "sendMsmCode", "saveProfile");
   }
 
   /**
@@ -85,6 +85,68 @@ class UserController extends TCApiControllerBase {
     } else {
       return $this->writeErrorJsonResponse($response->Message);
     }
+  }
+
+  /**
+   * 保存用户信息
+   * @param $name
+   * @parma $gender  男:1 女:2
+   * @param $birth_date
+   * @param $city
+   */
+  public function saveProfileAction() {
+    if(!$this->current_user) return $this->writeErrorJsonResponse();
+    $model = UserPorfileModel::findById($this->current_user->id);
+    if(!$model) {
+      $model = new UserPorfileModel();
+      $is_new = true;
+    }
+    if(!empty($_POST['name'])) $model->name = trim($_POST['name']);
+    if(!empty($_POST['gender'])) $model->gender = intval($_POST['gender']);
+    if(!empty($_POST['birth_date'])) $model->birth_date = $_POST['birth_date'];
+    if(!empty($_POST['city'])) $model->city = $_POST['city'];
+    if($is_new) $model->insert();
+    else $model->save();
+
+    return $this->writeSuccessJsonResponse();
+  }
+
+
+  /**
+   * 获取用户信息
+   * @json:{
+   *   "status": "success",          // 接口返回状态，sucess表示成功，error表示失敗
+   *   "message": "error message",   // 失败原因
+   *   "error_code": -100,           // 失败代码
+   *   "data": [                     // SampleResultItem, 一个子模型类数组示例
+   *     {
+   *       "name": 'xxx',            // 姓名
+   *       "gender": 0,              // 性别 1:男 2:女 0:未知
+   *       "birth_date": '',       // 出生日期
+   *       "city": '',      // 城市
+   *     }
+   *   ],
+   * }
+   */
+  public function getProfileAction() {
+    if(!$this->current_user) return $this->writeErrorJsonResponse();
+    $data = [
+      'name' => '',
+      'gender' => 0,
+      'birth_date' => '',
+      'city' => '',
+    ];
+    $model = UserPorfileModel::findById($this->current_user->id);
+    if($model) {
+      $data = [
+        'name' => $model->name,
+        'gender' => $model->gender,
+        'birth_date' => $model->birth_date,
+        'city' => $model->city,
+      ];
+    }
+
+    return $this->writeSuccessJsonResponse($data);
   }
 
 

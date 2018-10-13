@@ -19,6 +19,7 @@
  * @property int $wages_type
  * @property int $education
  * @property string $updated_at
+ * @property string $refresh_time
  */
 
 class RecruitModel extends TCModelBase {
@@ -51,6 +52,7 @@ class RecruitModel extends TCModelBase {
   protected function attributesForInsert() {
     return array('enterprise_id', 'work_address', 'work_post', 'work_require',
       'wages', 'weight', 'status', 'contacts_name', 'contacts_phone',
-      'wages_1', 'wages_2', 'wages_type', 'education', 'updated_at');
+      'wages_1', 'wages_2', 'wages_type', 'education', 'updated_at',
+      'refresh_time');
   }
 }
