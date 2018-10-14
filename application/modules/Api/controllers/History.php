@@ -64,9 +64,9 @@ class HistoryController extends TCApiControllerBase {
       $item->wages = $wages;
       $item->education = $recruitModel->education;
       $item->updated_at = $recruitModel->updated_at;
-      $item->tagNames = RecruitTagModel::getTagNamesByRecruitId($model->id);
+      $item->tagNames = RecruitTagModel::getTagNamesByRecruitId($recruitModel->id);
       $item->recommend = false;
-      if($model->status == 1) $item->recommend = true;
+      if($recruitModel->status == 1) $item->recommend = true;
       $data[] = $item;
     }
 
