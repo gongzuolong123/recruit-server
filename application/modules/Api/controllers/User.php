@@ -99,6 +99,7 @@ class UserController extends TCApiControllerBase {
     $model = UserPorfileModel::findById($this->current_user->id);
     if(!$model) {
       $model = new UserPorfileModel();
+      $model->id = $this->current_user->id;
       $is_new = true;
     }
     if(!empty($_POST['name'])) $model->name = trim($_POST['name']);
