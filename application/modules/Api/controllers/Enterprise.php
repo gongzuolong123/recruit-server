@@ -21,20 +21,25 @@ class EnterpriseController extends TCApiControllerBase {
     $sql = "select distinct area_id from enterprises where status=0";
     $models = EnterpriseModel::findAllBySql($sql);
     foreach($models as $model) {
-      $data['area']['data'][] = ['id' => $model->area_id, 'name' => AreaModel::findById($model->area_id)->name];
+      $v = AreaModel::findById($model->area_id)->name;
+      if(empty($v)) continue;
+      $data['area']['data'][] = ['id' => $model->area_id, 'name' => $v];
     }
     // 行业
     $data['industry'] = ['param_name' => 'industryId', 'data' => []];
     $sql = "select distinct industry_id from enterprises where status=0";
     $models = EnterpriseModel::findAllBySql($sql);
     foreach($models as $model) {
-      $data['industry']['data'][] = ['id' => $model->industry_id, 'name' => IndustryModel::findById($model->industry_id)->name];
+      $v = IndustryModel::findById($model->industry_id)->name;
+      if(empty($v)) continue;
+      $data['industry']['data'][] = ['id' => $model->industry_id, 'name' => $v];
     }
     // 职位
     $data['work_post'] = ['param_name' => 'workPost', 'data' => []];
     $sql = "select distinct work_post from recruits where status=0";
     $models = RecruitModel::findAllBySql($sql);
     foreach($models as $model) {
+      if(empty($model->work_post)) continue;
       $data['work_post']['data'][] = ['id' => $model->work_post, 'name' => $model->work_post];
     }
     // 薪资
