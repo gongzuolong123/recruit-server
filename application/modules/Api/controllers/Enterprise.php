@@ -278,7 +278,7 @@ class EnterpriseController extends TCApiControllerBase {
       $item->wages1 = $model->wages_1;
       $item->wages2 = $model->wages_2;
       $wages = $item->wages1 . '-' . $item->wages2;
-      if($item->wages2 <= 0) $wages = $model->wages_1 . '以上';
+      if($item->wages2 <= 0 || $item->wages2 < $item->wages1) $wages = $model->wages_1 . '以上';
       if($item->wages1 <= 0 && $item->wages2 <= 0) $wages = '面议';
       $item->wages = $wages;
       $item->education = $model->education;
